@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-navy text-ivory-50;
+    background-image: radial-gradient(circle at 75% -10%, rgba(85, 201, 154, .08), transparent 28rem);
+  }
+}
+
+@layer components {
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.16em] text-navy-200; }
+  .page-title { @apply font-display text-3xl font-semibold tracking-tight text-ivory-50 sm:text-4xl; }
+  .section-title { @apply text-lg font-semibold tracking-tight text-ivory-50; }
+  .muted { @apply text-sm text-navy-200; }
+  .section-head { @apply flex items-center justify-between gap-4; }
+  .field-label { @apply mb-2 mt-4 block text-sm font-medium text-navy; }
+  .hero-stat { @apply rounded-2xl border border-white/10 bg-[#151E2B] p-6 shadow-2xl shadow-black/20; }
+  .badge { @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide; }
+  .badge-gold { @apply bg-champagne/15 text-champagne; }
+  .badge-green { @apply bg-emerald-50 text-emerald-600; }
+  .stat-icon { @apply flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald; }
+  .stat-icon.red { @apply bg-loss/10 text-loss; }
+  .positive { @apply text-emerald; }
+  .negative { @apply text-loss; }
+  .notice { @apply flex items-start gap-3 rounded-2xl border border-champagne/30 bg-champagne-50 p-4 text-sm text-ivory-50; }
+  .notice p { @apply mt-1 text-xs text-navy-200; }
+  .icon-link { @apply text-navy-200 transition hover:text-emerald; }
+  .avatar { @apply flex h-11 w-11 items-center justify-center rounded-full bg-navy text-lg font-semibold text-champagne; }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald text-navy-700 font-semibold rounded-xl
+           hover:bg-emerald-300 transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-champagne focus:ring-offset-2;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 border border-white/15 bg-white/[.03] text-ivory-50 font-semibold rounded-xl
+           hover:bg-white/[.08] transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-champagne focus:ring-offset-2;
+  }
+  .btn-champagne {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-champagne text-navy-700 font-semibold rounded-xl
+           hover:bg-champagne-500 transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2;
+  }
+  .btn-emerald {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald text-navy-700 font-semibold rounded-xl
+           hover:bg-emerald-500 transition-colors duration-200;
+  }
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-loss text-white font-semibold rounded-xl
+           hover:opacity-90 transition-opacity duration-200;
+  }
+  .card {
+    @apply rounded-2xl border border-white/[.08] bg-[#151E2B] p-6 shadow-xl shadow-black/10;
+  }
+  table { @apply min-w-full text-left text-sm; }
+  th { @apply border-b border-ivory-300 px-3 py-3 text-xs font-semibold uppercase tracking-wider text-navy-200 first:pl-0; }
+  td { @apply border-b border-ivory-300 px-3 py-4 align-middle first:pl-0; }
+  .input-field {
+    @apply w-full rounded-xl border border-white/10 bg-[#0F1723] px-4 py-3 text-ivory-50 placeholder-navy-200
+           focus:outline-none focus:ring-2 focus:ring-champagne focus:border-champagne
+           transition-all duration-200;
+  }
+  .stat-label {
+    @apply text-sm font-medium text-navy-200 uppercase tracking-wider;
+  }
+  .stat-value {
+    @apply text-2xl font-bold text-navy;
+  }
+}
+
+@layer utilities {
+  .text-navy { color: #F4F0E8; }
+  .text-ivory { color: #F4F0E8; }
+  .bg-white { background-color: #151E2B; }
+  .border-ivory-300 { border-color: rgba(255,255,255,.08); }
+  .bg-ivory { background-color: #0B1019; }
+  .text-navy-300 { color: #C0C7D0; }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #344255;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #55C99A;
+}
