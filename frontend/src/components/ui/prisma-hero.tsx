@@ -50,18 +50,18 @@ export const PrismaHero = ({ onTryDemo, loading = false, activeSection = 'hero' 
   const reduceMotion = useReducedMotion();
   const contentMotion = { initial: reduceMotion ? false : { y: 20, opacity: 0 }, animate: { y: 0, opacity: 1 }, transition: { duration: 0.8, delay: reduceMotion ? 0 : 0.5, ease: [0.16, 1, 0.3, 1] as const } };
 
-  return <section className="relative isolate h-screen min-h-[620px] w-full bg-[#080808] px-0 sm:px-3 sm:pt-3">
-    <div className="pointer-events-none absolute -inset-5 -z-10 rounded-[2.75rem] bg-[radial-gradient(ellipse_at_center,rgba(24,24,24,.75)_45%,rgba(8,8,8,0)_78%)] opacity-90 blur-2xl" />
-    <div className="relative h-full w-full overflow-hidden rounded-none bg-[#111111] sm:rounded-2xl md:rounded-[2rem]">
-      {!videoFailed && <video autoPlay loop muted playsInline onError={() => setVideoFailed(true)} className="absolute inset-0 h-full w-full object-cover" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4" />}
-      <div className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.7] mix-blend-overlay" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-black/85" />
+  return <section className="relative isolate h-[100svh] min-h-[680px] w-full bg-[#080808] px-0 sm:px-3 sm:pt-3">
+    <div className="absolute inset-0 z-0 overflow-visible rounded-none bg-[#080808] sm:rounded-t-2xl md:rounded-t-[2rem]">
+      {!videoFailed && <video autoPlay loop muted playsInline onError={() => setVideoFailed(true)} className="absolute inset-0 h-full w-full object-cover" style={{ maskImage: 'linear-gradient(to bottom, #000 0, #000 calc(100% - 180px), transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, #000 0, #000 calc(100% - 180px), transparent 100%)' }} src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4" />}
+      <div className="noise-overlay pointer-events-none absolute inset-0 z-10 opacity-[0.7] mix-blend-overlay" />
+      <div className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-b from-black/35 via-black/10 to-transparent" />
+      <div className="absolute inset-x-0 top-0 z-30 h-full">
       <nav className="absolute left-4 right-4 top-5 z-20 sm:left-1/2 sm:right-auto sm:top-7 sm:w-max sm:-translate-x-1/2">
         <div className="scrollbar-hidden flex max-w-full items-center justify-center gap-2 overflow-x-auto rounded-full border border-white/10 bg-black/80 px-3 py-2.5 shadow-xl shadow-black/20 backdrop-blur-sm sm:gap-6 sm:px-6 md:gap-10 md:px-8 lg:gap-12">
           {navItems.map((item) => <a key={item.label} href={item.href} className={`whitespace-nowrap text-[10px] transition-colors sm:text-xs md:text-sm ${activeSection === item.href.slice(1) ? 'text-[#E8E5D5]' : 'text-[#E8E5D5]/65 hover:text-[#E8E5D5]'}`}>{item.label}</a>)}
         </div>
       </nav>
-      <div className="absolute bottom-[10vh] left-0 right-0 px-5 sm:bottom-[13vh] sm:px-8 md:px-10 lg:bottom-[15vh]">
+      <div className="absolute bottom-[10vh] left-0 right-0 z-10 px-5 sm:bottom-[13vh] sm:px-8 md:px-10 lg:bottom-[15vh]">
         <div className="mx-auto grid max-w-[1600px] grid-cols-1 items-end gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,.65fr)] lg:gap-12">
           <div className="min-w-0"><div className="mb-5 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[.2em] text-[#E8E5D5]/70 sm:text-xs"><span className="h-px w-8 bg-[#E8E5D5]/50"/> A clearer way to learn wealth</div><h1 className="whitespace-nowrap font-medium text-[clamp(4.5rem,11.5vw,10.5rem)] leading-[0.84] tracking-[-0.075em] text-[#E8E5D5]"><WordsPullUp text="Hindsight" showAsterisk /></h1></div>
           <div className="flex max-w-[390px] flex-col gap-5 pb-0 lg:pb-1">
@@ -71,6 +71,7 @@ export const PrismaHero = ({ onTryDemo, loading = false, activeSection = 'hero' 
         </div>
       </div>
       <a href="#introduction" className="absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-[10px] uppercase tracking-[.2em] text-[#A5A5A0] transition hover:text-[#E8E5D5] sm:flex"><span>Scroll to explore</span><motion.span animate={reduceMotion ? undefined : { y: [0, 5, 0] }} transition={reduceMotion ? undefined : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}><ArrowDown size={14}/></motion.span></a>
+      </div>
     </div>
   </section>;
 };

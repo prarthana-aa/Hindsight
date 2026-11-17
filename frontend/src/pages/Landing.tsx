@@ -5,6 +5,7 @@ import { ArrowRight, BarChart3, BookOpen, Check, CircleHelp, ExternalLink, Layer
 import { authDemo, getAllPrices } from '../api';
 import { useAuth } from '../AuthContext';
 import PrismaHero from '../components/ui/prisma-hero';
+import InversionCircleScrollAnimation from '../components/ui/inversion-circle-scroll-animation';
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const sections = ['introduction', 'how-it-works', 'features', 'approach', 'learn', 'contact'];
@@ -52,8 +53,7 @@ export default function Landing() {
 
   return <div className="landing-page min-h-screen overflow-hidden bg-[#080808] text-ivory-50">
     <PrismaHero onTryDemo={demo} loading={loading} activeSection={activeSection} />
-
-    <section id="introduction" className="relative border-b border-white/[.07] bg-[#0B0B0B] px-5 py-20 sm:px-8 sm:py-24 lg:py-28"><div className="absolute right-0 top-0 h-full w-1/3 bg-[#111111]/60"/><div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.15fr_.85fr] lg:items-center lg:gap-16"><Reveal><p className="eyebrow text-emerald">The first principle</p><h2 className="mt-5 max-w-3xl font-display text-4xl font-medium leading-[1.02] tracking-tight sm:text-5xl lg:text-7xl">Investing should make sense before it makes money.</h2></Reveal><Reveal delay={.12} className="max-w-xl border-l border-champagne/40 pl-6 lg:mb-0"><p className="text-lg leading-8 text-navy-200">Hindsight is a robo-advisor simulation for understanding how investing decisions are made. Your profile informs the recommendation. The rules stay visible. Every transaction uses virtual INR.</p><Link to="/risk" className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-champagne transition hover:gap-3">Understand your risk <ArrowRight size={16}/></Link></Reveal></div></section>
+    <InversionCircleScrollAnimation onExplore={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })} />
 
     <section id="how-it-works" className="border-b border-white/[.07] bg-[#0B0B0B] px-5 py-28 sm:px-8 sm:py-36"><div className="mx-auto max-w-7xl"><Reveal><div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="eyebrow text-champagne">How Hindsight works</p><h2 className="mt-4 max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-6xl">A path you can follow.</h2></div><p className="max-w-sm text-sm leading-6 text-navy-200">Five deliberate steps from uncertainty to an investment plan you can explain.</p></div></Reveal><div className="relative mt-16"><div className="absolute bottom-0 left-[18px] top-0 w-px bg-gradient-to-b from-emerald via-champagne to-transparent md:left-[calc(16.66%+2px)]"/><div className="space-y-0">{steps.map(([number,title,description], index)=><Reveal key={number} delay={index*.07} className="group relative grid gap-5 border-b border-white/[.07] py-8 pl-12 transition hover:bg-white/[.02] md:grid-cols-[16.66%_28%_1fr] md:pl-0"><span className="absolute left-0 top-9 flex h-9 w-9 items-center justify-center rounded-full border border-emerald/50 bg-[#111111] font-mono text-xs text-emerald md:static md:justify-self-start">{number}</span><h3 className="text-2xl font-medium tracking-tight text-ivory-50 md:text-3xl">{title}</h3><p className="max-w-md text-sm leading-7 text-navy-200 md:pt-1">{description}</p></Reveal>)}</div></div></div></section>
 
