@@ -1,0 +1,352 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/Wallet.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=95aecdd1"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=95aecdd1"; const useEffect = __vite__cjsImport3_react["useEffect"]; const useState = __vite__cjsImport3_react["useState"];
+import { CheckCircle2, Plus, RefreshCw } from "/node_modules/.vite/deps/lucide-react.js?v=95aecdd1";
+import { getWalletBalance, getWalletLedger, walletDeposit, walletReconcile } from "/src/api.ts";
+const money = (v) => `₹${v.toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
+export default function Wallet() {
+  _s();
+  const [balance, setBalance] = useState();
+  const [ledger, setLedger] = useState([]);
+  const [audit, setAudit] = useState();
+  const [amount, setAmount] = useState("10000");
+  const [memo, setMemo] = useState("Virtual wallet top-up");
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState("");
+  const load = async () => {
+    const [b, l, a] = await Promise.all([getWalletBalance(), getWalletLedger(), walletReconcile()]);
+    setBalance(b.data);
+    setLedger(l.data);
+    setAudit(a.data);
+  };
+  useEffect(() => {
+    load().catch(() => setMessage("Unable to load wallet data."));
+  }, []);
+  const deposit = async (e) => {
+    e.preventDefault();
+    setBusy(true);
+    setMessage("");
+    try {
+      await walletDeposit(Number(amount), memo);
+      setMessage("Virtual INR added to your wallet.");
+      await load();
+    } catch (err) {
+      setMessage(err.response?.data?.detail || "Deposit failed.");
+    } finally {
+      setBusy(false);
+    }
+  };
+  if (!balance) return /* @__PURE__ */ jsxDEV("div", { className: "card animate-pulse h-52" }, void 0, false, {
+    fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+    lineNumber: 27,
+    columnNumber: 24
+  }, this);
+  return /* @__PURE__ */ jsxDEV("div", { className: "space-y-7", children: [
+    /* @__PURE__ */ jsxDEV("header", { children: [
+      /* @__PURE__ */ jsxDEV("p", { className: "eyebrow", children: "Virtual wallet" }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+        lineNumber: 27,
+        columnNumber: 110
+      }, this),
+      /* @__PURE__ */ jsxDEV("h1", { className: "page-title", children: "Your cash, accounted for." }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+        lineNumber: 27,
+        columnNumber: 151
+      }, this),
+      /* @__PURE__ */ jsxDEV("p", { className: "muted mt-2", children: "Every movement is recorded in an append-only ledger." }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+        lineNumber: 27,
+        columnNumber: 208
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+      lineNumber: 27,
+      columnNumber: 102
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "grid gap-5 lg:grid-cols-[1.15fr_1fr]", children: [
+      " ",
+      /* @__PURE__ */ jsxDEV("div", { className: "hero-stat", children: [
+        /* @__PURE__ */ jsxDEV("p", { className: "eyebrow text-ivory-300", children: "Available virtual balance" }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 381
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "mt-5 text-4xl font-semibold text-ivory", children: money(Number(balance.current_balance)) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 448
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "mt-3 text-sm text-ivory-300", children: [
+          "Currency · ",
+          balance.currency
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 546
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+        lineNumber: 27,
+        columnNumber: 354
+      }, this),
+      /* @__PURE__ */ jsxDEV("form", { onSubmit: deposit, className: "card", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxDEV(Plus, { size: 18, className: "text-emerald" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 711
+          }, this),
+          /* @__PURE__ */ jsxDEV("h2", { className: "section-title", children: "Add virtual INR" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 754
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 670
+        }, this),
+        /* @__PURE__ */ jsxDEV("label", { className: "field-label", children: "Amount" }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 810
+        }, this),
+        /* @__PURE__ */ jsxDEV("input", { className: "input-field", type: "number", min: "1", step: "0.01", value: amount, onChange: (e) => setAmount(e.target.value) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 855
+        }, this),
+        /* @__PURE__ */ jsxDEV("label", { className: "field-label", children: "Memo" }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 981
+        }, this),
+        /* @__PURE__ */ jsxDEV("input", { className: "input-field", value: memo, onChange: (e) => setMemo(e.target.value) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 1024
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { disabled: busy, className: "btn-primary mt-5 w-full", children: busy ? "Adding…" : "Add virtual cash" }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 1112
+        }, this),
+        message && /* @__PURE__ */ jsxDEV("p", { className: "mt-3 text-sm text-emerald", children: message }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 1232
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+        lineNumber: 27,
+        columnNumber: 628
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+      lineNumber: 27,
+      columnNumber: 299
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "card", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "section-head", children: [
+        /* @__PURE__ */ jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDEV("p", { className: "eyebrow", children: "Integrity check" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 1357
+          }, this),
+          /* @__PURE__ */ jsxDEV("h2", { className: "section-title", children: "Ledger reconciliation" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 1399
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 1352
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { className: "badge badge-green", children: [
+          /* @__PURE__ */ jsxDEV(CheckCircle2, { size: 14 }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 1497
+          }, this),
+          " ",
+          audit?.is_reconciled ? "Reconciled" : "Review"
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 1461
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+        lineNumber: 27,
+        columnNumber: 1322
+      }, this),
+      /* @__PURE__ */ jsxDEV("p", { className: "muted mt-3", children: [
+        audit?.ledger_count,
+        " entries · computed balance ",
+        money(Number(audit?.computed_balance || 0))
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+        lineNumber: 27,
+        columnNumber: 1585
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+      lineNumber: 27,
+      columnNumber: 1300
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "card", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "section-head", children: [
+        /* @__PURE__ */ jsxDEV("h2", { className: "section-title", children: "Transaction history" }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 1767
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { onClick: () => load(), className: "icon-link", children: /* @__PURE__ */ jsxDEV(RefreshCw, { size: 17 }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 1874
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 1821
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+        lineNumber: 27,
+        columnNumber: 1737
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "mt-4 overflow-x-auto", children: /* @__PURE__ */ jsxDEV("table", { children: [
+        /* @__PURE__ */ jsxDEV("thead", { children: /* @__PURE__ */ jsxDEV("tr", { children: [
+          /* @__PURE__ */ jsxDEV("th", { children: "Date" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 1968
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", { children: "Memo" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 1981
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", { children: "Type" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 1994
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", { children: "Amount" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 2007
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", { children: "Balance" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 2022
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 1964
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 1957
+        }, this),
+        /* @__PURE__ */ jsxDEV("tbody", { children: ledger.map((e) => /* @__PURE__ */ jsxDEV("tr", { children: [
+          /* @__PURE__ */ jsxDEV("td", { children: new Date(e.created_at).toLocaleDateString("en-IN") }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 2092
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { children: e.memo }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 2153
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { children: /* @__PURE__ */ jsxDEV("span", { className: e.entry_type === "CREDIT" ? "positive" : "negative", children: e.entry_type }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 2174
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 2170
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { className: e.entry_type === "CREDIT" ? "positive" : "negative", children: [
+            e.entry_type === "CREDIT" ? "+" : "−",
+            money(Number(e.amount))
+          ] }, void 0, true, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 2270
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { children: money(Number(e.running_balance)) }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+            lineNumber: 27,
+            columnNumber: 2407
+          }, this)
+        ] }, e.id, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 2077
+        }, this)) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+          lineNumber: 27,
+          columnNumber: 2051
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+        lineNumber: 27,
+        columnNumber: 1950
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+        lineNumber: 27,
+        columnNumber: 1912
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+      lineNumber: 27,
+      columnNumber: 1715
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx",
+    lineNumber: 27,
+    columnNumber: 75
+  }, this);
+}
+_s(Wallet, "Qd4FCED2Ns5oxeqRCQeJNJq5i54=");
+_c = Wallet;
+var _c;
+$RefreshReg$(_c, "Wallet");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Wallet.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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dEg7QUFBQTtBQUFBO0FBQUE7QUFBQSxpQkFBd0g7QUFBQSxVQUFLLHVCQUFDLFFBQUlaLGdCQUFNK0IsT0FBT0YsRUFBRWtCLGVBQWUsQ0FBQyxLQUFwQztBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQUFzQztBQUFBLGFBQXJWbEIsRUFBRW1CLElBQVg7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUFtVyxDQUFLLEtBQTlYO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFBZ1k7QUFBQSxXQUFyZTtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQTZlLEtBQW5oQjtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQTJoQjtBQUFBLFNBQTd0QjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBQW11QjtBQUFBLE9BQW56RTtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBQXl6RTtBQUFPO0FBQUMzQyxHQUhoM0VELFFBQU07QUFBQSxLQUFOQTtBQUFNLElBQUE2QztBQUFBLGFBQUFBLElBQUEiLCJuYW1lcyI6WyJ1c2VFZmZlY3QiLCJ1c2VTdGF0ZSIsIkNoZWNrQ2lyY2xlMiIsIlBsdXMiLCJSZWZyZXNoQ3ciLCJnZXRXYWxsZXRCYWxhbmNlIiwiZ2V0V2FsbGV0TGVkZ2VyIiwid2FsbGV0RGVwb3NpdCIsIndhbGxldFJlY29uY2lsZSIsIm1vbmV5IiwidiIsInRvTG9jYWxlU3RyaW5nIiwibWF4aW11bUZyYWN0aW9uRGlnaXRzIiwiV2FsbGV0IiwiX3MiLCJiYWxhbmNlIiwic2V0QmFsYW5jZSIsImxlZGdlciIsInNldExlZGdlciIsImF1ZGl0Iiwic2V0QXVkaXQiLCJhbW91bnQiLCJzZXRBbW91bnQiLCJtZW1vIiwic2V0TWVtbyIsImJ1c3kiLCJzZXRCdXN5IiwibWVzc2FnZSIsInNldE1lc3NhZ2UiLCJsb2FkIiwiYiIsImwiLCJhIiwiUHJvbWlzZSIsImFsbCIsImRhdGEiLCJjYXRjaCIsImRlcG9zaXQiLCJlIiwicHJldmVudERlZmF1bHQiLCJOdW1iZXIiLCJlcnIiLCJyZXNwb25zZSIsImRldGFpbCIsImN1cnJlbnRfYmFsYW5jZSIsImN1cnJlbmN5IiwidGFyZ2V0IiwidmFsdWUiLCJpc19yZWNvbmNpbGVkIiwibGVkZ2VyX2NvdW50IiwiY29tcHV0ZWRfYmFsYW5jZSIsIm1hcCIsIkRhdGUiLCJjcmVhdGVkX2F0IiwidG9Mb2NhbGVEYXRlU3RyaW5nIiwiZW50cnlfdHlwZSIsInJ1bm5pbmdfYmFsYW5jZSIsImlkIiwiX2MiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiV2FsbGV0LnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyB1c2VFZmZlY3QsIHVzZVN0YXRlIH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IHsgQ2hlY2tDaXJjbGUyLCBQbHVzLCBSZWZyZXNoQ3cgfSBmcm9tICdsdWNpZGUtcmVhY3QnO1xuaW1wb3J0IHsgZ2V0V2FsbGV0QmFsYW5jZSwgZ2V0V2FsbGV0TGVkZ2VyLCB3YWxsZXREZXBvc2l0LCB3YWxsZXRSZWNvbmNpbGUgfSBmcm9tICcuLi9hcGknO1xuY29uc3QgbW9uZXkgPSAodjogbnVtYmVyKSA9PiBg4oK5JHt2LnRvTG9jYWxlU3RyaW5nKCdlbi1JTicsIHsgbWF4aW11bUZyYWN0aW9uRGlnaXRzOiAyIH0pfWA7XG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBXYWxsZXQoKSB7IGNvbnN0IFtiYWxhbmNlLHNldEJhbGFuY2VdPXVzZVN0YXRlPGFueT4oKTsgY29uc3QgW2xlZGdlcixzZXRMZWRnZXJdPXVzZVN0YXRlPGFueVtdPihbXSk7IGNvbnN0IFthdWRpdCxzZXRBdWRpdF09dXNlU3RhdGU8YW55PigpOyBjb25zdCBbYW1vdW50LHNldEFtb3VudF09dXNlU3RhdGUoJzEwMDAwJyk7IGNvbnN0IFttZW1vLHNldE1lbW9dPXVzZVN0YXRlKCdWaXJ0dWFsIHdhbGxldCB0b3AtdXAnKTsgY29uc3QgW2J1c3ksc2V0QnVzeV09dXNlU3RhdGUoZmFsc2UpOyBjb25zdCBbbWVzc2FnZSxzZXRNZXNzYWdlXT11c2VTdGF0ZSgnJyk7XG4gY29uc3QgbG9hZD1hc3luYygpPT57Y29uc3QgW2IsbCxhXT1hd2FpdCBQcm9taXNlLmFsbChbZ2V0V2FsbGV0QmFsYW5jZSgpLGdldFdhbGxldExlZGdlcigpLHdhbGxldFJlY29uY2lsZSgpXSk7c2V0QmFsYW5jZShiLmRhdGEpO3NldExlZGdlcihsLmRhdGEpO3NldEF1ZGl0KGEuZGF0YSl9OyB1c2VFZmZlY3QoKCk9Pntsb2FkKCkuY2F0Y2goKCk9PnNldE1lc3NhZ2UoJ1VuYWJsZSB0byBsb2FkIHdhbGxldCBkYXRhLicpKX0sW10pO1xuIGNvbnN0IGRlcG9zaXQ9YXN5bmMoZTpSZWFjdC5Gb3JtRXZlbnQpPT57ZS5wcmV2ZW50RGVmYXVsdCgpO3NldEJ1c3kodHJ1ZSk7c2V0TWVzc2FnZSgnJyk7dHJ5e2F3YWl0IHdhbGxldERlcG9zaXQoTnVtYmVyKGFtb3VudCksbWVtbyk7c2V0TWVzc2FnZSgnVmlydHVhbCBJTlIgYWRkZWQgdG8geW91ciB3YWxsZXQuJyk7YXdhaXQgbG9hZCgpfWNhdGNoKGVycjphbnkpe3NldE1lc3NhZ2UoZXJyLnJlc3BvbnNlPy5kYXRhPy5kZXRhaWx8fCdEZXBvc2l0IGZhaWxlZC4nKX1maW5hbGx5e3NldEJ1c3koZmFsc2UpfX07XG4gaWYoIWJhbGFuY2UpcmV0dXJuIDxkaXYgY2xhc3NOYW1lPVwiY2FyZCBhbmltYXRlLXB1bHNlIGgtNTJcIi8+OyByZXR1cm4gPGRpdiBjbGFzc05hbWU9XCJzcGFjZS15LTdcIj48aGVhZGVyPjxwIGNsYXNzTmFtZT1cImV5ZWJyb3dcIj5WaXJ0dWFsIHdhbGxldDwvcD48aDEgY2xhc3NOYW1lPVwicGFnZS10aXRsZVwiPllvdXIgY2FzaCwgYWNjb3VudGVkIGZvci48L2gxPjxwIGNsYXNzTmFtZT1cIm11dGVkIG10LTJcIj5FdmVyeSBtb3ZlbWVudCBpcyByZWNvcmRlZCBpbiBhbiBhcHBlbmQtb25seSBsZWRnZXIuPC9wPjwvaGVhZGVyPjxkaXYgY2xhc3NOYW1lPVwiZ3JpZCBnYXAtNSBsZzpncmlkLWNvbHMtWzEuMTVmcl8xZnJdXCI+IDxkaXYgY2xhc3NOYW1lPVwiaGVyby1zdGF0XCI+PHAgY2xhc3NOYW1lPVwiZXllYnJvdyB0ZXh0LWl2b3J5LTMwMFwiPkF2YWlsYWJsZSB2aXJ0dWFsIGJhbGFuY2U8L3A+PHAgY2xhc3NOYW1lPVwibXQtNSB0ZXh0LTR4bCBmb250LXNlbWlib2xkIHRleHQtaXZvcnlcIj57bW9uZXkoTnVtYmVyKGJhbGFuY2UuY3VycmVudF9iYWxhbmNlKSl9PC9wPjxwIGNsYXNzTmFtZT1cIm10LTMgdGV4dC1zbSB0ZXh0LWl2b3J5LTMwMFwiPkN1cnJlbmN5IMK3IHtiYWxhbmNlLmN1cnJlbmN5fTwvcD48L2Rpdj48Zm9ybSBvblN1Ym1pdD17ZGVwb3NpdH0gY2xhc3NOYW1lPVwiY2FyZFwiPjxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTJcIj48UGx1cyBzaXplPXsxOH0gY2xhc3NOYW1lPVwidGV4dC1lbWVyYWxkXCIvPjxoMiBjbGFzc05hbWU9XCJzZWN0aW9uLXRpdGxlXCI+QWRkIHZpcnR1YWwgSU5SPC9oMj48L2Rpdj48bGFiZWwgY2xhc3NOYW1lPVwiZmllbGQtbGFiZWxcIj5BbW91bnQ8L2xhYmVsPjxpbnB1dCBjbGFzc05hbWU9XCJpbnB1dC1maWVsZFwiIHR5cGU9XCJudW1iZXJcIiBtaW49XCIxXCIgc3RlcD1cIjAuMDFcIiB2YWx1ZT17YW1vdW50fSBvbkNoYW5nZT17ZT0+c2V0QW1vdW50KGUudGFyZ2V0LnZhbHVlKX0vPjxsYWJlbCBjbGFzc05hbWU9XCJmaWVsZC1sYWJlbFwiPk1lbW88L2xhYmVsPjxpbnB1dCBjbGFzc05hbWU9XCJpbnB1dC1maWVsZFwiIHZhbHVlPXttZW1vfSBvbkNoYW5nZT17ZT0+c2V0TWVtbyhlLnRhcmdldC52YWx1ZSl9Lz48YnV0dG9uIGRpc2FibGVkPXtidXN5fSBjbGFzc05hbWU9XCJidG4tcHJpbWFyeSBtdC01IHctZnVsbFwiPntidXN5PydBZGRpbmfigKYnOidBZGQgdmlydHVhbCBjYXNoJ308L2J1dHRvbj57bWVzc2FnZSYmPHAgY2xhc3NOYW1lPVwibXQtMyB0ZXh0LXNtIHRleHQtZW1lcmFsZFwiPnttZXNzYWdlfTwvcD59PC9mb3JtPjwvZGl2PjxkaXYgY2xhc3NOYW1lPVwiY2FyZFwiPjxkaXYgY2xhc3NOYW1lPVwic2VjdGlvbi1oZWFkXCI+PGRpdj48cCBjbGFzc05hbWU9XCJleWVicm93XCI+SW50ZWdyaXR5IGNoZWNrPC9wPjxoMiBjbGFzc05hbWU9XCJzZWN0aW9uLXRpdGxlXCI+TGVkZ2VyIHJlY29uY2lsaWF0aW9uPC9oMj48L2Rpdj48c3BhbiBjbGFzc05hbWU9XCJiYWRnZSBiYWRnZS1ncmVlblwiPjxDaGVja0NpcmNsZTIgc2l6ZT17MTR9Lz4ge2F1ZGl0Py5pc19yZWNvbmNpbGVkPydSZWNvbmNpbGVkJzonUmV2aWV3J308L3NwYW4+PC9kaXY+PHAgY2xhc3NOYW1lPVwibXV0ZWQgbXQtM1wiPnthdWRpdD8ubGVkZ2VyX2NvdW50fSBlbnRyaWVzIMK3IGNvbXB1dGVkIGJhbGFuY2Uge21vbmV5KE51bWJlcihhdWRpdD8uY29tcHV0ZWRfYmFsYW5jZXx8MCkpfTwvcD48L2Rpdj48ZGl2IGNsYXNzTmFtZT1cImNhcmRcIj48ZGl2IGNsYXNzTmFtZT1cInNlY3Rpb24taGVhZFwiPjxoMiBjbGFzc05hbWU9XCJzZWN0aW9uLXRpdGxlXCI+VHJhbnNhY3Rpb24gaGlzdG9yeTwvaDI+PGJ1dHRvbiBvbkNsaWNrPXsoKT0+bG9hZCgpfSBjbGFzc05hbWU9XCJpY29uLWxpbmtcIj48UmVmcmVzaEN3IHNpemU9ezE3fS8+PC9idXR0b24+PC9kaXY+PGRpdiBjbGFzc05hbWU9XCJtdC00IG92ZXJmbG93LXgtYXV0b1wiPjx0YWJsZT48dGhlYWQ+PHRyPjx0aD5EYXRlPC90aD48dGg+TWVtbzwvdGg+PHRoPlR5cGU8L3RoPjx0aD5BbW91bnQ8L3RoPjx0aD5CYWxhbmNlPC90aD48L3RyPjwvdGhlYWQ+PHRib2R5PntsZWRnZXIubWFwKGU9Pjx0ciBrZXk9e2UuaWR9Pjx0ZD57bmV3IERhdGUoZS5jcmVhdGVkX2F0KS50b0xvY2FsZURhdGVTdHJpbmcoJ2VuLUlOJyl9PC90ZD48dGQ+e2UubWVtb308L3RkPjx0ZD48c3BhbiBjbGFzc05hbWU9e2UuZW50cnlfdHlwZT09PSdDUkVESVQnPydwb3NpdGl2ZSc6J25lZ2F0aXZlJ30+e2UuZW50cnlfdHlwZX08L3NwYW4+PC90ZD48dGQgY2xhc3NOYW1lPXtlLmVudHJ5X3R5cGU9PT0nQ1JFRElUJz8ncG9zaXRpdmUnOiduZWdhdGl2ZSd9PntlLmVudHJ5X3R5cGU9PT0nQ1JFRElUJz8nKyc6J+KIkid9e21vbmV5KE51bWJlcihlLmFtb3VudCkpfTwvdGQ+PHRkPnttb25leShOdW1iZXIoZS5ydW5uaW5nX2JhbGFuY2UpKX08L3RkPjwvdHI+KX08L3Rib2R5PjwvdGFibGU+PC9kaXY+PC9kaXY+PC9kaXY+IH1cbiJdLCJmaWxlIjoiQzovVXNlcnMvcHJhcnRoYW5hL0Rlc2t0b3AvRmludGVjaCBhcHBsL2Zyb250ZW5kL3NyYy9wYWdlcy9XYWxsZXQudHN4In0=

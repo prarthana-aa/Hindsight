@@ -7,6 +7,8 @@
     font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    scroll-padding-top: 2rem;
   }
   body {
     @apply bg-navy text-ivory-50;
@@ -82,6 +84,18 @@
   .border-ivory-300 { border-color: rgba(255,255,255,.08); }
   .bg-ivory { background-color: #0B1019; }
   .text-navy-300 { color: #C0C7D0; }
+  .landing-page .text-navy-200 { color: #A5A5A0; }
+  .landing-page .text-navy-300 { color: #A5A5A0; }
+  .landing-page .text-ivory-50, .landing-page .text-ivory { color: #E8E5D5; }
+  .landing-page .text-emerald { color: #4C9B79; }
+  .landing-page .bg-emerald { background-color: #4C9B79; }
+  .landing-page .text-champagne { color: #C9A66B; }
+  .landing-page .bg-champagne { background-color: #C9A66B; }
+  .noise-overlay {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");
+  }
+  .scrollbar-hidden { scrollbar-width: none; }
+  .scrollbar-hidden::-webkit-scrollbar { display: none; }
 }
 
 /* Custom scrollbar */

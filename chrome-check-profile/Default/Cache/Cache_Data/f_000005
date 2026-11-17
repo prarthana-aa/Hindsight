@@ -1,0 +1,304 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/App.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=95aecdd1"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime["Fragment"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import { Routes, Route, Navigate } from "/node_modules/.vite/deps/react-router-dom.js?v=95aecdd1";
+import { AuthProvider, useAuth } from "/src/AuthContext.tsx";
+import Landing from "/src/pages/Landing.tsx";
+import Login from "/src/pages/Login.tsx";
+import Signup from "/src/pages/Signup.tsx";
+import Dashboard from "/src/pages/Dashboard.tsx";
+import Risk from "/src/pages/Risk.tsx";
+import Wallet from "/src/pages/Wallet.tsx";
+import Invest from "/src/pages/Invest.tsx";
+import Rebalance from "/src/pages/Rebalance.tsx";
+import Settings from "/src/pages/Settings.tsx";
+import AppLayout from "/src/components/AppLayout.tsx";
+function ProtectedRoute({ children }) {
+  _s();
+  const { token, loading } = useAuth();
+  if (loading) return /* @__PURE__ */ jsxDEV("div", { className: "flex items-center justify-center h-screen", children: /* @__PURE__ */ jsxDEV("div", { className: "animate-spin rounded-full h-8 w-8 border-b-2 border-navy" }, void 0, false, {
+    fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+    lineNumber: 35,
+    columnNumber: 82
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+    lineNumber: 35,
+    columnNumber: 23
+  }, this);
+  if (!token) return /* @__PURE__ */ jsxDEV(Navigate, { to: "/login", replace: true }, void 0, false, {
+    fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+    lineNumber: 36,
+    columnNumber: 22
+  }, this);
+  return /* @__PURE__ */ jsxDEV(Fragment, { children }, void 0, false, {
+    fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+    lineNumber: 37,
+    columnNumber: 10
+  }, this);
+}
+_s(ProtectedRoute, "o8MIFYdSlPpKYrNxV+lEex+Jjmg=", false, function() {
+  return [useAuth];
+});
+_c = ProtectedRoute;
+export default function App() {
+  return /* @__PURE__ */ jsxDEV(AuthProvider, { children: /* @__PURE__ */ jsxDEV(Routes, { children: [
+    /* @__PURE__ */ jsxDEV(Route, { path: "/", element: /* @__PURE__ */ jsxDEV(Landing, {}, void 0, false, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+      lineNumber: 44,
+      columnNumber: 34
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+      lineNumber: 44,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV(Route, { path: "/login", element: /* @__PURE__ */ jsxDEV(Login, {}, void 0, false, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+      lineNumber: 45,
+      columnNumber: 39
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+      lineNumber: 45,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV(Route, { path: "/signup", element: /* @__PURE__ */ jsxDEV(Signup, {}, void 0, false, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+      lineNumber: 46,
+      columnNumber: 40
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+      lineNumber: 46,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV(
+      Route,
+      {
+        path: "/dashboard",
+        element: /* @__PURE__ */ jsxDEV(ProtectedRoute, { children: /* @__PURE__ */ jsxDEV(AppLayout, { children: /* @__PURE__ */ jsxDEV(Dashboard, {}, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 49,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 49,
+          columnNumber: 36
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 49,
+          columnNumber: 20
+        }, this)
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+        lineNumber: 47,
+        columnNumber: 9
+      },
+      this
+    ),
+    /* @__PURE__ */ jsxDEV(
+      Route,
+      {
+        path: "/risk",
+        element: /* @__PURE__ */ jsxDEV(ProtectedRoute, { children: /* @__PURE__ */ jsxDEV(AppLayout, { children: /* @__PURE__ */ jsxDEV(Risk, {}, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 53,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 53,
+          columnNumber: 36
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 53,
+          columnNumber: 20
+        }, this)
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+        lineNumber: 51,
+        columnNumber: 9
+      },
+      this
+    ),
+    /* @__PURE__ */ jsxDEV(
+      Route,
+      {
+        path: "/wallet",
+        element: /* @__PURE__ */ jsxDEV(ProtectedRoute, { children: /* @__PURE__ */ jsxDEV(AppLayout, { children: /* @__PURE__ */ jsxDEV(Wallet, {}, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 57,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 57,
+          columnNumber: 36
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 57,
+          columnNumber: 20
+        }, this)
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+        lineNumber: 55,
+        columnNumber: 9
+      },
+      this
+    ),
+    /* @__PURE__ */ jsxDEV(
+      Route,
+      {
+        path: "/invest",
+        element: /* @__PURE__ */ jsxDEV(ProtectedRoute, { children: /* @__PURE__ */ jsxDEV(AppLayout, { children: /* @__PURE__ */ jsxDEV(Invest, {}, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 61,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 61,
+          columnNumber: 36
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 61,
+          columnNumber: 20
+        }, this)
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+        lineNumber: 59,
+        columnNumber: 9
+      },
+      this
+    ),
+    /* @__PURE__ */ jsxDEV(
+      Route,
+      {
+        path: "/investments",
+        element: /* @__PURE__ */ jsxDEV(ProtectedRoute, { children: /* @__PURE__ */ jsxDEV(AppLayout, { children: /* @__PURE__ */ jsxDEV(Invest, {}, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 65,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 65,
+          columnNumber: 36
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 65,
+          columnNumber: 20
+        }, this)
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+        lineNumber: 63,
+        columnNumber: 9
+      },
+      this
+    ),
+    /* @__PURE__ */ jsxDEV(
+      Route,
+      {
+        path: "/rebalance",
+        element: /* @__PURE__ */ jsxDEV(ProtectedRoute, { children: /* @__PURE__ */ jsxDEV(AppLayout, { children: /* @__PURE__ */ jsxDEV(Rebalance, {}, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 69,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 69,
+          columnNumber: 36
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 69,
+          columnNumber: 20
+        }, this)
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+        lineNumber: 67,
+        columnNumber: 9
+      },
+      this
+    ),
+    /* @__PURE__ */ jsxDEV(
+      Route,
+      {
+        path: "/settings",
+        element: /* @__PURE__ */ jsxDEV(ProtectedRoute, { children: /* @__PURE__ */ jsxDEV(AppLayout, { children: /* @__PURE__ */ jsxDEV(Settings, {}, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 73,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 73,
+          columnNumber: 36
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+          lineNumber: 73,
+          columnNumber: 20
+        }, this)
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+        lineNumber: 71,
+        columnNumber: 9
+      },
+      this
+    )
+  ] }, void 0, true, {
+    fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+    lineNumber: 43,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx",
+    lineNumber: 42,
+    columnNumber: 5
+  }, this);
+}
+_c2 = App;
+var _c, _c2;
+$RefreshReg$(_c, "ProtectedRoute");
+$RefreshReg$(_c2, "App");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/prarthana/Desktop/Fintech appl/frontend/src/App.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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QUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsSUFFZ0Y7QUFBQSxPQTlCbEY7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQWdDQSxLQWpDRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBa0NBO0FBRUo7QUFBQ0MsTUF0Q3VCRDtBQUFHLElBQUFFLElBQUFEO0FBQUEsYUFBQUMsSUFBQTtBQUFBLGFBQUFELEtBQUEiLCJuYW1lcyI6WyJSb3V0ZXMiLCJSb3V0ZSIsIk5hdmlnYXRlIiwiQXV0aFByb3ZpZGVyIiwidXNlQXV0aCIsIkxhbmRpbmciLCJMb2dpbiIsIlNpZ251cCIsIkRhc2hib2FyZCIsIlJpc2siLCJXYWxsZXQiLCJJbnZlc3QiLCJSZWJhbGFuY2UiLCJTZXR0aW5ncyIsIkFwcExheW91dCIsIlByb3RlY3RlZFJvdXRlIiwiY2hpbGRyZW4iLCJfcyIsInRva2VuIiwibG9hZGluZyIsIkFwcCIsIl9jMiIsIl9jIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkFwcC50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgUm91dGVzLCBSb3V0ZSwgTmF2aWdhdGUgfSBmcm9tICdyZWFjdC1yb3V0ZXItZG9tJztcbmltcG9ydCB7IEF1dGhQcm92aWRlciwgdXNlQXV0aCB9IGZyb20gJy4vQXV0aENvbnRleHQnO1xuaW1wb3J0IExhbmRpbmcgZnJvbSAnLi9wYWdlcy9MYW5kaW5nJztcbmltcG9ydCBMb2dpbiBmcm9tICcuL3BhZ2VzL0xvZ2luJztcbmltcG9ydCBTaWdudXAgZnJvbSAnLi9wYWdlcy9TaWdudXAnO1xuaW1wb3J0IERhc2hib2FyZCBmcm9tICcuL3BhZ2VzL0Rhc2hib2FyZCc7XG5pbXBvcnQgUmlzayBmcm9tICcuL3BhZ2VzL1Jpc2snO1xuaW1wb3J0IFdhbGxldCBmcm9tICcuL3BhZ2VzL1dhbGxldCc7XG5pbXBvcnQgSW52ZXN0IGZyb20gJy4vcGFnZXMvSW52ZXN0JztcbmltcG9ydCBSZWJhbGFuY2UgZnJvbSAnLi9wYWdlcy9SZWJhbGFuY2UnO1xuaW1wb3J0IFNldHRpbmdzIGZyb20gJy4vcGFnZXMvU2V0dGluZ3MnO1xuaW1wb3J0IEFwcExheW91dCBmcm9tICcuL2NvbXBvbmVudHMvQXBwTGF5b3V0JztcblxuZnVuY3Rpb24gUHJvdGVjdGVkUm91dGUoeyBjaGlsZHJlbiB9OiB7IGNoaWxkcmVuOiBSZWFjdC5SZWFjdE5vZGUgfSkge1xuICBjb25zdCB7IHRva2VuLCBsb2FkaW5nIH0gPSB1c2VBdXRoKCk7XG4gIGlmIChsb2FkaW5nKSByZXR1cm4gPGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciBoLXNjcmVlblwiPjxkaXYgY2xhc3NOYW1lPVwiYW5pbWF0ZS1zcGluIHJvdW5kZWQtZnVsbCBoLTggdy04IGJvcmRlci1iLTIgYm9yZGVyLW5hdnlcIj48L2Rpdj48L2Rpdj47XG4gIGlmICghdG9rZW4pIHJldHVybiA8TmF2aWdhdGUgdG89XCIvbG9naW5cIiByZXBsYWNlIC8+O1xuICByZXR1cm4gPD57Y2hpbGRyZW59PC8+O1xufVxuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBBcHAoKSB7XG4gIHJldHVybiAoXG4gICAgPEF1dGhQcm92aWRlcj5cbiAgICAgIDxSb3V0ZXM+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiL1wiIGVsZW1lbnQ9ezxMYW5kaW5nIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIi9sb2dpblwiIGVsZW1lbnQ9ezxMb2dpbiAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCIvc2lnbnVwXCIgZWxlbWVudD17PFNpZ251cCAvPn0gLz5cbiAgICAgICAgPFJvdXRlXG4gICAgICAgICAgcGF0aD1cIi9kYXNoYm9hcmRcIlxuICAgICAgICAgIGVsZW1lbnQ9ezxQcm90ZWN0ZWRSb3V0ZT48QXBwTGF5b3V0PjxEYXNoYm9hcmQgLz48L0FwcExheW91dD48L1Byb3RlY3RlZFJvdXRlPn1cbiAgICAgICAgLz5cbiAgICAgICAgPFJvdXRlXG4gICAgICAgICAgcGF0aD1cIi9yaXNrXCJcbiAgICAgICAgICBlbGVtZW50PXs8UHJvdGVjdGVkUm91dGU+PEFwcExheW91dD48UmlzayAvPjwvQXBwTGF5b3V0PjwvUHJvdGVjdGVkUm91dGU+fVxuICAgICAgICAvPlxuICAgICAgICA8Um91dGVcbiAgICAgICAgICBwYXRoPVwiL3dhbGxldFwiXG4gICAgICAgICAgZWxlbWVudD17PFByb3RlY3RlZFJvdXRlPjxBcHBMYXlvdXQ+PFdhbGxldCAvPjwvQXBwTGF5b3V0PjwvUHJvdGVjdGVkUm91dGU+fVxuICAgICAgICAvPlxuICAgICAgICA8Um91dGVcbiAgICAgICAgICBwYXRoPVwiL2ludmVzdFwiXG4gICAgICAgICAgZWxlbWVudD17PFByb3RlY3RlZFJvdXRlPjxBcHBMYXlvdXQ+PEludmVzdCAvPjwvQXBwTGF5b3V0PjwvUHJvdGVjdGVkUm91dGU+fVxuICAgICAgICAvPlxuICAgICAgICA8Um91dGVcbiAgICAgICAgICBwYXRoPVwiL2ludmVzdG1lbnRzXCJcbiAgICAgICAgICBlbGVtZW50PXs8UHJvdGVjdGVkUm91dGU+PEFwcExheW91dD48SW52ZXN0IC8+PC9BcHBMYXlvdXQ+PC9Qcm90ZWN0ZWRSb3V0ZT59XG4gICAgICAgIC8+XG4gICAgICAgIDxSb3V0ZVxuICAgICAgICAgIHBhdGg9XCIvcmViYWxhbmNlXCJcbiAgICAgICAgICBlbGVtZW50PXs8UHJvdGVjdGVkUm91dGU+PEFwcExheW91dD48UmViYWxhbmNlIC8+PC9BcHBMYXlvdXQ+PC9Qcm90ZWN0ZWRSb3V0ZT59XG4gICAgICAgIC8+XG4gICAgICAgIDxSb3V0ZVxuICAgICAgICAgIHBhdGg9XCIvc2V0dGluZ3NcIlxuICAgICAgICAgIGVsZW1lbnQ9ezxQcm90ZWN0ZWRSb3V0ZT48QXBwTGF5b3V0PjxTZXR0aW5ncyAvPjwvQXBwTGF5b3V0PjwvUHJvdGVjdGVkUm91dGU+fVxuICAgICAgICAvPlxuICAgICAgPC9Sb3V0ZXM+XG4gICAgPC9BdXRoUHJvdmlkZXI+XG4gICk7XG59XG4iXSwiZmlsZSI6IkM6L1VzZXJzL3ByYXJ0aGFuYS9EZXNrdG9wL0ZpbnRlY2ggYXBwbC9mcm9udGVuZC9zcmMvQXBwLnRzeCJ9

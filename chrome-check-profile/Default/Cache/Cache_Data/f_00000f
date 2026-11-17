@@ -1,0 +1,367 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/Invest.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=95aecdd1"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=95aecdd1"; const useEffect = __vite__cjsImport3_react["useEffect"]; const useState = __vite__cjsImport3_react["useState"];
+import { ArrowDownToLine, ArrowUpFromLine, Clock3, TrendingUp } from "/node_modules/.vite/deps/lucide-react.js?v=95aecdd1";
+import { getAllPrices, getOrders, getPortfolioDashboard, placeOrder } from "/src/api.ts";
+const assets = ["NIFTY50", "GILT", "GOLD", "INTLEQ"];
+const money = (v) => `₹${v.toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
+export default function Invest() {
+  _s();
+  const [prices, setPrices] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [holdings, setHoldings] = useState([]);
+  const [asset, setAsset] = useState("NIFTY50");
+  const [side, setSide] = useState("BUY");
+  const [quantity, setQuantity] = useState("1");
+  const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+  const load = async () => {
+    const [p, o, d] = await Promise.all([getAllPrices(), getOrders(), getPortfolioDashboard()]);
+    setPrices(p.data);
+    setOrders(o.data);
+    setHoldings(d.data.holdings);
+  };
+  useEffect(() => {
+    load().catch(() => setMessage("Unable to load market data."));
+  }, []);
+  const selected = prices.find((p) => p.asset === asset);
+  const held = holdings.find((h) => h.asset === asset);
+  const submit = async (e) => {
+    e.preventDefault();
+    setBusy(true);
+    setMessage("");
+    try {
+      const res = await placeOrder({ asset, side, quantity: Number(quantity), idempotency_key: `web-${Date.now()}-${asset}` });
+      setMessage(res.data.status === "EXECUTED" ? "Order executed successfully." : res.data.failure_reason || "Order was not executed.");
+      await load();
+    } catch (err) {
+      setMessage(err.response?.data?.detail || "Order failed.");
+    } finally {
+      setBusy(false);
+    }
+  };
+  return /* @__PURE__ */ jsxDEV("div", { className: "space-y-7", children: [
+    /* @__PURE__ */ jsxDEV("header", { children: [
+      /* @__PURE__ */ jsxDEV("p", { className: "eyebrow", children: "Investments" }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+        lineNumber: 24,
+        columnNumber: 1295
+      }, this),
+      /* @__PURE__ */ jsxDEV("h1", { className: "page-title", children: "Put your allocation to work." }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+        lineNumber: 24,
+        columnNumber: 1333
+      }, this),
+      /* @__PURE__ */ jsxDEV("p", { className: "muted mt-2", children: "Four transparent asset proxies. Every price includes its freshness source." }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+        lineNumber: 24,
+        columnNumber: 1393
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+      lineNumber: 24,
+      columnNumber: 1287
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "grid gap-4 sm:grid-cols-2 xl:grid-cols-4", children: assets.map((a) => {
+      const p = prices.find((x) => x.asset === a);
+      return /* @__PURE__ */ jsxDEV("button", { onClick: () => setAsset(a), className: `card text-left transition ${a === asset ? "ring-2 ring-champagne" : ""}`, children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex justify-between", children: [
+          /* @__PURE__ */ jsxDEV("span", { className: "font-semibold", children: a }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 1803
+          }, this),
+          /* @__PURE__ */ jsxDEV(TrendingUp, { size: 17, className: "text-emerald" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 1845
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 1765
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "mt-6 text-xl font-semibold", children: p ? money(Number(p.close_price)) : "—" }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 1900
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "mt-2 flex items-center gap-1 text-xs text-navy-200", children: [
+          /* @__PURE__ */ jsxDEV(Clock3, { size: 13 }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 2052
+          }, this),
+          " ",
+          p?.source || "Loading",
+          " ",
+          p?.is_stale ? "· stale" : "· fresh"
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 1986
+        }, this)
+      ] }, a, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+        lineNumber: 24,
+        columnNumber: 1635
+      }, this);
+    }) }, void 0, false, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+      lineNumber: 24,
+      columnNumber: 1506
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "grid gap-5 lg:grid-cols-[1fr_1.3fr]", children: [
+      /* @__PURE__ */ jsxDEV("form", { onSubmit: submit, className: "card", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxDEV("span", { className: "stat-icon", children: /* @__PURE__ */ jsxDEV(TrendingUp, { size: 18 }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 2321
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 2293
+          }, this),
+          /* @__PURE__ */ jsxDEV("h2", { className: "section-title", children: "Place a virtual order" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 2352
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 2252
+        }, this),
+        /* @__PURE__ */ jsxDEV("label", { className: "field-label", children: "Asset" }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 2414
+        }, this),
+        /* @__PURE__ */ jsxDEV("select", { className: "input-field", value: asset, onChange: (e) => setAsset(e.target.value), children: assets.map((a) => /* @__PURE__ */ jsxDEV("option", { children: a }, a, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 2566
+        }, this)) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 2458
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "mt-4 grid grid-cols-2 gap-3", children: [
+          /* @__PURE__ */ jsxDEV("button", { type: "button", onClick: () => setSide("BUY"), className: side === "BUY" ? "btn-emerald" : "btn-secondary", children: [
+            /* @__PURE__ */ jsxDEV(ArrowDownToLine, { size: 16 }, void 0, false, {
+              fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+              lineNumber: 24,
+              columnNumber: 2764
+            }, this),
+            " Buy"
+          ] }, void 0, true, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 2650
+          }, this),
+          /* @__PURE__ */ jsxDEV("button", { type: "button", onClick: () => setSide("SELL"), className: side === "SELL" ? "btn-danger" : "btn-secondary", children: [
+            /* @__PURE__ */ jsxDEV(ArrowUpFromLine, { size: 16 }, void 0, false, {
+              fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+              lineNumber: 24,
+              columnNumber: 2921
+            }, this),
+            " Sell"
+          ] }, void 0, true, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 2806
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 2605
+        }, this),
+        /* @__PURE__ */ jsxDEV("label", { className: "field-label", children: [
+          "Quantity ",
+          /* @__PURE__ */ jsxDEV("span", { className: "font-normal text-navy-200", children: held ? `· Held ${held.quantity}` : "" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 3010
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 2970
+        }, this),
+        /* @__PURE__ */ jsxDEV("input", { className: "input-field", type: "number", min: "0.000001", step: "0.000001", value: quantity, onChange: (e) => setQuantity(e.target.value) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 3108
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "mt-4 rounded-xl bg-ivory p-4 text-sm", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "flex justify-between", children: [
+            /* @__PURE__ */ jsxDEV("span", { className: "muted", children: "Estimated value" }, void 0, false, {
+              fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+              lineNumber: 24,
+              columnNumber: 3341
+            }, this),
+            /* @__PURE__ */ jsxDEV("strong", { children: selected ? money(Number(selected.close_price) * Number(quantity)) : "—" }, void 0, false, {
+              fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+              lineNumber: 24,
+              columnNumber: 3387
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 3303
+          }, this),
+          /* @__PURE__ */ jsxDEV("p", { className: "mt-2 text-xs text-navy-200", children: "Includes 0.10% transaction cost and execution slippage." }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 3483
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 3249
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { disabled: busy, className: "btn-primary mt-5 w-full", children: busy ? "Processing…" : `Confirm ${side.toLowerCase()} order` }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 3590
+        }, this),
+        message && /* @__PURE__ */ jsxDEV("p", { className: "mt-3 text-sm text-emerald", children: message }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 3733
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+        lineNumber: 24,
+        columnNumber: 2211
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "card", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "section-head", children: /* @__PURE__ */ jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDEV("p", { className: "eyebrow", children: "Activity" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 3852
+          }, this),
+          /* @__PURE__ */ jsxDEV("h2", { className: "section-title", children: "Order history" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 3887
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 3847
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 3817
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "mt-4 space-y-2", children: [
+          orders.slice(0, 8).map((o) => /* @__PURE__ */ jsxDEV("div", { className: "flex items-center justify-between border-b border-ivory-300 py-3 text-sm", children: [
+            /* @__PURE__ */ jsxDEV("div", { children: [
+              /* @__PURE__ */ jsxDEV("strong", { children: [
+                o.side,
+                " ",
+                o.asset
+              ] }, void 0, true, {
+                fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+                lineNumber: 24,
+                columnNumber: 4116
+              }, this),
+              /* @__PURE__ */ jsxDEV("p", { className: "text-xs text-navy-200", children: [
+                Number(o.quantity),
+                " units · ",
+                new Date(o.created_at).toLocaleDateString("en-IN")
+              ] }, void 0, true, {
+                fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+                lineNumber: 24,
+                columnNumber: 4151
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+              lineNumber: 24,
+              columnNumber: 4111
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "text-right", children: [
+              /* @__PURE__ */ jsxDEV("strong", { children: money(Number(o.net_amount)) }, void 0, false, {
+                fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+                lineNumber: 24,
+                columnNumber: 4307
+              }, this),
+              /* @__PURE__ */ jsxDEV("p", { className: o.status === "EXECUTED" ? "positive" : "negative", children: o.status }, void 0, false, {
+                fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+                lineNumber: 24,
+                columnNumber: 4353
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+              lineNumber: 24,
+              columnNumber: 4279
+            }, this)
+          ] }, o.id, true, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 4010
+          }, this)),
+          !orders.length && /* @__PURE__ */ jsxDEV("p", { className: "muted py-8 text-center", children: "No orders yet." }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+            lineNumber: 24,
+            columnNumber: 4465
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+          lineNumber: 24,
+          columnNumber: 3947
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+        lineNumber: 24,
+        columnNumber: 3795
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+      lineNumber: 24,
+      columnNumber: 2158
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx",
+    lineNumber: 24,
+    columnNumber: 1260
+  }, this);
+}
+_s(Invest, "IwZb/D1BTogHL1ALf33ghCv4IeA=");
+_c = Invest;
+var _c;
+$RefreshReg$(_c, "Invest");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/prarthana/Desktop/Fintech appl/frontend/src/pages/Invest.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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OUQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxxQkFBcUU7QUFBQSxpQkFBL0k7QUFBQTtBQUFBO0FBQUE7QUFBQSxtQkFBbUo7QUFBQSxlQUF0WmxCLEVBQUVvQyxJQUFaO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBQXNhLENBQU07QUFBQSxVQUFHLENBQUNwRCxPQUFPcUQsVUFBUSx1QkFBQyxPQUFFLFdBQVUsMEJBQXlCLDhCQUF0QztBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQUFvRDtBQUFBLGFBQTdpQjtBQUFBO0FBQUE7QUFBQTtBQUFBLGVBQWtqQjtBQUFBLFdBQTFzQjtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQWd0QjtBQUFBLFNBQXJ3RTtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBQTJ3RTtBQUFBLE9BQTVtRztBQUFBO0FBQUE7QUFBQTtBQUFBLFNBQWtuRztBQUFNO0FBQUN4RCxHQUEzdUlELFFBQU07QUFBQSxLQUFOQTtBQUFNLElBQUEwRDtBQUFBLGFBQUFBLElBQUEiLCJuYW1lcyI6WyJ1c2VFZmZlY3QiLCJ1c2VTdGF0ZSIsIkFycm93RG93blRvTGluZSIsIkFycm93VXBGcm9tTGluZSIsIkNsb2NrMyIsIlRyZW5kaW5nVXAiLCJnZXRBbGxQcmljZXMiLCJnZXRPcmRlcnMiLCJnZXRQb3J0Zm9saW9EYXNoYm9hcmQiLCJwbGFjZU9yZGVyIiwiYXNzZXRzIiwibW9uZXkiLCJ2IiwidG9Mb2NhbGVTdHJpbmciLCJtYXhpbXVtRnJhY3Rpb25EaWdpdHMiLCJJbnZlc3QiLCJfcyIsInByaWNlcyIsInNldFByaWNlcyIsIm9yZGVycyIsInNldE9yZGVycyIsImhvbGRpbmdzIiwic2V0SG9sZGluZ3MiLCJhc3NldCIsInNldEFzc2V0Iiwic2lkZSIsInNldFNpZGUiLCJxdWFudGl0eSIsInNldFF1YW50aXR5IiwibWVzc2FnZSIsInNldE1lc3NhZ2UiLCJidXN5Iiwic2V0QnVzeSIsImxvYWQiLCJwIiwibyIsImQiLCJQcm9taXNlIiwiYWxsIiwiZGF0YSIsImNhdGNoIiwic2VsZWN0ZWQiLCJmaW5kIiwiaGVsZCIsImgiLCJzdWJtaXQiLCJlIiwicHJldmVudERlZmF1bHQiLCJyZXMiLCJOdW1iZXIiLCJpZGVtcG90ZW5jeV9rZXkiLCJEYXRlIiwibm93Iiwic3RhdHVzIiwiZmFpbHVyZV9yZWFzb24iLCJlcnIiLCJyZXNwb25zZSIsImRldGFpbCIsIm1hcCIsImEiLCJ4IiwiY2xvc2VfcHJpY2UiLCJzb3VyY2UiLCJpc19zdGFsZSIsInRhcmdldCIsInZhbHVlIiwidG9Mb3dlckNhc2UiLCJzbGljZSIsImNyZWF0ZWRfYXQiLCJ0b0xvY2FsZURhdGVTdHJpbmciLCJuZXRfYW1vdW50IiwiaWQiLCJsZW5ndGgiLCJfYyJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJJbnZlc3QudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHVzZUVmZmVjdCwgdXNlU3RhdGUgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgeyBBcnJvd0Rvd25Ub0xpbmUsIEFycm93VXBGcm9tTGluZSwgQ2xvY2szLCBUcmVuZGluZ1VwIH0gZnJvbSAnbHVjaWRlLXJlYWN0JztcbmltcG9ydCB7IGdldEFsbFByaWNlcywgZ2V0T3JkZXJzLCBnZXRQb3J0Zm9saW9EYXNoYm9hcmQsIHBsYWNlT3JkZXIgfSBmcm9tICcuLi9hcGknO1xuY29uc3QgYXNzZXRzPVsnTklGVFk1MCcsJ0dJTFQnLCdHT0xEJywnSU5UTEVRJ107IGNvbnN0IG1vbmV5PSh2Om51bWJlcik9PmDigrkke3YudG9Mb2NhbGVTdHJpbmcoJ2VuLUlOJyx7bWF4aW11bUZyYWN0aW9uRGlnaXRzOjJ9KX1gO1xuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gSW52ZXN0KCl7Y29uc3QgW3ByaWNlcyxzZXRQcmljZXNdPXVzZVN0YXRlPGFueVtdPihbXSk7Y29uc3QgW29yZGVycyxzZXRPcmRlcnNdPXVzZVN0YXRlPGFueVtdPihbXSk7Y29uc3QgW2hvbGRpbmdzLHNldEhvbGRpbmdzXT11c2VTdGF0ZTxhbnlbXT4oW10pO2NvbnN0IFthc3NldCxzZXRBc3NldF09dXNlU3RhdGUoJ05JRlRZNTAnKTtjb25zdCBbc2lkZSxzZXRTaWRlXT11c2VTdGF0ZSgnQlVZJyk7Y29uc3QgW3F1YW50aXR5LHNldFF1YW50aXR5XT11c2VTdGF0ZSgnMScpO2NvbnN0IFttZXNzYWdlLHNldE1lc3NhZ2VdPXVzZVN0YXRlKCcnKTtjb25zdCBbYnVzeSxzZXRCdXN5XT11c2VTdGF0ZShmYWxzZSk7IGNvbnN0IGxvYWQ9YXN5bmMoKT0+e2NvbnN0IFtwLG8sZF09YXdhaXQgUHJvbWlzZS5hbGwoW2dldEFsbFByaWNlcygpLGdldE9yZGVycygpLGdldFBvcnRmb2xpb0Rhc2hib2FyZCgpXSk7c2V0UHJpY2VzKHAuZGF0YSk7c2V0T3JkZXJzKG8uZGF0YSk7c2V0SG9sZGluZ3MoZC5kYXRhLmhvbGRpbmdzKX07dXNlRWZmZWN0KCgpPT57bG9hZCgpLmNhdGNoKCgpPT5zZXRNZXNzYWdlKCdVbmFibGUgdG8gbG9hZCBtYXJrZXQgZGF0YS4nKSl9LFtdKTsgY29uc3Qgc2VsZWN0ZWQ9cHJpY2VzLmZpbmQocD0+cC5hc3NldD09PWFzc2V0KTtjb25zdCBoZWxkPWhvbGRpbmdzLmZpbmQoaD0+aC5hc3NldD09PWFzc2V0KTtjb25zdCBzdWJtaXQ9YXN5bmMoZTpSZWFjdC5Gb3JtRXZlbnQpPT57ZS5wcmV2ZW50RGVmYXVsdCgpO3NldEJ1c3kodHJ1ZSk7c2V0TWVzc2FnZSgnJyk7dHJ5e2NvbnN0IHJlcz1hd2FpdCBwbGFjZU9yZGVyKHthc3NldCxzaWRlLHF1YW50aXR5Ok51bWJlcihxdWFudGl0eSksaWRlbXBvdGVuY3lfa2V5OmB3ZWItJHtEYXRlLm5vdygpfS0ke2Fzc2V0fWB9KTtzZXRNZXNzYWdlKHJlcy5kYXRhLnN0YXR1cz09PSdFWEVDVVRFRCc/J09yZGVyIGV4ZWN1dGVkIHN1Y2Nlc3NmdWxseS4nOnJlcy5kYXRhLmZhaWx1cmVfcmVhc29ufHwnT3JkZXIgd2FzIG5vdCBleGVjdXRlZC4nKTthd2FpdCBsb2FkKCl9Y2F0Y2goZXJyOmFueSl7c2V0TWVzc2FnZShlcnIucmVzcG9uc2U/LmRhdGE/LmRldGFpbHx8J09yZGVyIGZhaWxlZC4nKX1maW5hbGx5e3NldEJ1c3koZmFsc2UpfX07cmV0dXJuIDxkaXYgY2xhc3NOYW1lPVwic3BhY2UteS03XCI+PGhlYWRlcj48cCBjbGFzc05hbWU9XCJleWVicm93XCI+SW52ZXN0bWVudHM8L3A+PGgxIGNsYXNzTmFtZT1cInBhZ2UtdGl0bGVcIj5QdXQgeW91ciBhbGxvY2F0aW9uIHRvIHdvcmsuPC9oMT48cCBjbGFzc05hbWU9XCJtdXRlZCBtdC0yXCI+Rm91ciB0cmFuc3BhcmVudCBhc3NldCBwcm94aWVzLiBFdmVyeSBwcmljZSBpbmNsdWRlcyBpdHMgZnJlc2huZXNzIHNvdXJjZS48L3A+PC9oZWFkZXI+PGRpdiBjbGFzc05hbWU9XCJncmlkIGdhcC00IHNtOmdyaWQtY29scy0yIHhsOmdyaWQtY29scy00XCI+e2Fzc2V0cy5tYXAoYT0+e2NvbnN0IHA9cHJpY2VzLmZpbmQoeD0+eC5hc3NldD09PWEpO3JldHVybiA8YnV0dG9uIGtleT17YX0gb25DbGljaz17KCk9PnNldEFzc2V0KGEpfSBjbGFzc05hbWU9e2BjYXJkIHRleHQtbGVmdCB0cmFuc2l0aW9uICR7YT09PWFzc2V0PydyaW5nLTIgcmluZy1jaGFtcGFnbmUnOicnfWB9PjxkaXYgY2xhc3NOYW1lPVwiZmxleCBqdXN0aWZ5LWJldHdlZW5cIj48c3BhbiBjbGFzc05hbWU9XCJmb250LXNlbWlib2xkXCI+e2F9PC9zcGFuPjxUcmVuZGluZ1VwIHNpemU9ezE3fSBjbGFzc05hbWU9XCJ0ZXh0LWVtZXJhbGRcIi8+PC9kaXY+PHAgY2xhc3NOYW1lPVwibXQtNiB0ZXh0LXhsIGZvbnQtc2VtaWJvbGRcIj57cD9tb25leShOdW1iZXIocC5jbG9zZV9wcmljZSkpOifigJQnfTwvcD48cCBjbGFzc05hbWU9XCJtdC0yIGZsZXggaXRlbXMtY2VudGVyIGdhcC0xIHRleHQteHMgdGV4dC1uYXZ5LTIwMFwiPjxDbG9jazMgc2l6ZT17MTN9Lz4ge3A/LnNvdXJjZXx8J0xvYWRpbmcnfSB7cD8uaXNfc3RhbGU/J8K3IHN0YWxlJzonwrcgZnJlc2gnfTwvcD48L2J1dHRvbj59KX08L2Rpdj48ZGl2IGNsYXNzTmFtZT1cImdyaWQgZ2FwLTUgbGc6Z3JpZC1jb2xzLVsxZnJfMS4zZnJdXCI+PGZvcm0gb25TdWJtaXQ9e3N1Ym1pdH0gY2xhc3NOYW1lPVwiY2FyZFwiPjxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTJcIj48c3BhbiBjbGFzc05hbWU9XCJzdGF0LWljb25cIj48VHJlbmRpbmdVcCBzaXplPXsxOH0vPjwvc3Bhbj48aDIgY2xhc3NOYW1lPVwic2VjdGlvbi10aXRsZVwiPlBsYWNlIGEgdmlydHVhbCBvcmRlcjwvaDI+PC9kaXY+PGxhYmVsIGNsYXNzTmFtZT1cImZpZWxkLWxhYmVsXCI+QXNzZXQ8L2xhYmVsPjxzZWxlY3QgY2xhc3NOYW1lPVwiaW5wdXQtZmllbGRcIiB2YWx1ZT17YXNzZXR9IG9uQ2hhbmdlPXtlPT5zZXRBc3NldChlLnRhcmdldC52YWx1ZSl9Pnthc3NldHMubWFwKGE9PjxvcHRpb24ga2V5PXthfT57YX08L29wdGlvbj4pfTwvc2VsZWN0PjxkaXYgY2xhc3NOYW1lPVwibXQtNCBncmlkIGdyaWQtY29scy0yIGdhcC0zXCI+PGJ1dHRvbiB0eXBlPVwiYnV0dG9uXCIgb25DbGljaz17KCk9PnNldFNpZGUoJ0JVWScpfSBjbGFzc05hbWU9e3NpZGU9PT0nQlVZJz8nYnRuLWVtZXJhbGQnOididG4tc2Vjb25kYXJ5J30+PEFycm93RG93blRvTGluZSBzaXplPXsxNn0vPiBCdXk8L2J1dHRvbj48YnV0dG9uIHR5cGU9XCJidXR0b25cIiBvbkNsaWNrPXsoKT0+c2V0U2lkZSgnU0VMTCcpfSBjbGFzc05hbWU9e3NpZGU9PT0nU0VMTCc/J2J0bi1kYW5nZXInOididG4tc2Vjb25kYXJ5J30+PEFycm93VXBGcm9tTGluZSBzaXplPXsxNn0vPiBTZWxsPC9idXR0b24+PC9kaXY+PGxhYmVsIGNsYXNzTmFtZT1cImZpZWxkLWxhYmVsXCI+UXVhbnRpdHkgPHNwYW4gY2xhc3NOYW1lPVwiZm9udC1ub3JtYWwgdGV4dC1uYXZ5LTIwMFwiPntoZWxkP2DCtyBIZWxkICR7aGVsZC5xdWFudGl0eX1gOicnfTwvc3Bhbj48L2xhYmVsPjxpbnB1dCBjbGFzc05hbWU9XCJpbnB1dC1maWVsZFwiIHR5cGU9XCJudW1iZXJcIiBtaW49XCIwLjAwMDAwMVwiIHN0ZXA9XCIwLjAwMDAwMVwiIHZhbHVlPXtxdWFudGl0eX0gb25DaGFuZ2U9e2U9PnNldFF1YW50aXR5KGUudGFyZ2V0LnZhbHVlKX0vPjxkaXYgY2xhc3NOYW1lPVwibXQtNCByb3VuZGVkLXhsIGJnLWl2b3J5IHAtNCB0ZXh0LXNtXCI+PGRpdiBjbGFzc05hbWU9XCJmbGV4IGp1c3RpZnktYmV0d2VlblwiPjxzcGFuIGNsYXNzTmFtZT1cIm11dGVkXCI+RXN0aW1hdGVkIHZhbHVlPC9zcGFuPjxzdHJvbmc+e3NlbGVjdGVkP21vbmV5KE51bWJlcihzZWxlY3RlZC5jbG9zZV9wcmljZSkqTnVtYmVyKHF1YW50aXR5KSk6J+KAlCd9PC9zdHJvbmc+PC9kaXY+PHAgY2xhc3NOYW1lPVwibXQtMiB0ZXh0LXhzIHRleHQtbmF2eS0yMDBcIj5JbmNsdWRlcyAwLjEwJSB0cmFuc2FjdGlvbiBjb3N0IGFuZCBleGVjdXRpb24gc2xpcHBhZ2UuPC9wPjwvZGl2PjxidXR0b24gZGlzYWJsZWQ9e2J1c3l9IGNsYXNzTmFtZT1cImJ0bi1wcmltYXJ5IG10LTUgdy1mdWxsXCI+e2J1c3k/J1Byb2Nlc3NpbmfigKYnOmBDb25maXJtICR7c2lkZS50b0xvd2VyQ2FzZSgpfSBvcmRlcmB9PC9idXR0b24+e21lc3NhZ2UmJjxwIGNsYXNzTmFtZT1cIm10LTMgdGV4dC1zbSB0ZXh0LWVtZXJhbGRcIj57bWVzc2FnZX08L3A+fTwvZm9ybT48ZGl2IGNsYXNzTmFtZT1cImNhcmRcIj48ZGl2IGNsYXNzTmFtZT1cInNlY3Rpb24taGVhZFwiPjxkaXY+PHAgY2xhc3NOYW1lPVwiZXllYnJvd1wiPkFjdGl2aXR5PC9wPjxoMiBjbGFzc05hbWU9XCJzZWN0aW9uLXRpdGxlXCI+T3JkZXIgaGlzdG9yeTwvaDI+PC9kaXY+PC9kaXY+PGRpdiBjbGFzc05hbWU9XCJtdC00IHNwYWNlLXktMlwiPntvcmRlcnMuc2xpY2UoMCw4KS5tYXAobz0+PGRpdiBrZXk9e28uaWR9IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlbiBib3JkZXItYiBib3JkZXItaXZvcnktMzAwIHB5LTMgdGV4dC1zbVwiPjxkaXY+PHN0cm9uZz57by5zaWRlfSB7by5hc3NldH08L3N0cm9uZz48cCBjbGFzc05hbWU9XCJ0ZXh0LXhzIHRleHQtbmF2eS0yMDBcIj57TnVtYmVyKG8ucXVhbnRpdHkpfSB1bml0cyDCtyB7bmV3IERhdGUoby5jcmVhdGVkX2F0KS50b0xvY2FsZURhdGVTdHJpbmcoJ2VuLUlOJyl9PC9wPjwvZGl2PjxkaXYgY2xhc3NOYW1lPVwidGV4dC1yaWdodFwiPjxzdHJvbmc+e21vbmV5KE51bWJlcihvLm5ldF9hbW91bnQpKX08L3N0cm9uZz48cCBjbGFzc05hbWU9e28uc3RhdHVzPT09J0VYRUNVVEVEJz8ncG9zaXRpdmUnOiduZWdhdGl2ZSd9PntvLnN0YXR1c308L3A+PC9kaXY+PC9kaXY+KX17IW9yZGVycy5sZW5ndGgmJjxwIGNsYXNzTmFtZT1cIm11dGVkIHB5LTggdGV4dC1jZW50ZXJcIj5ObyBvcmRlcnMgeWV0LjwvcD59PC9kaXY+PC9kaXY+PC9kaXY+PC9kaXY+fVxuIl0sImZpbGUiOiJDOi9Vc2Vycy9wcmFydGhhbmEvRGVza3RvcC9GaW50ZWNoIGFwcGwvZnJvbnRlbmQvc3JjL3BhZ2VzL0ludmVzdC50c3gifQ==

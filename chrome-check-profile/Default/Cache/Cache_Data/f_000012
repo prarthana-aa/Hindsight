@@ -1,0 +1,270 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/AppLayout.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=95aecdd1"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime["Fragment"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import { Link, useLocation } from "/node_modules/.vite/deps/react-router-dom.js?v=95aecdd1";
+import { useAuth } from "/src/AuthContext.tsx";
+import { BarChart3, CircleHelp, LayoutDashboard, LogOut, Menu, RefreshCw, Settings, Shield, TrendingUp, Wallet, X } from "/node_modules/.vite/deps/lucide-react.js?v=95aecdd1";
+import __vite__cjsImport6_react from "/node_modules/.vite/deps/react.js?v=95aecdd1"; const useState = __vite__cjsImport6_react["useState"];
+const navItems = [
+  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { path: "/invest", label: "Explore Assets", icon: TrendingUp },
+  { path: "/investments", label: "My Investments", icon: BarChart3 },
+  { path: "/risk", label: "Risk Profile", icon: Shield },
+  { path: "/wallet", label: "Wallet", icon: Wallet },
+  { path: "/rebalance", label: "Rebalancing", icon: RefreshCw }
+];
+export default function AppLayout({ children }) {
+  _s();
+  const { user, logout } = useAuth();
+  const location = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const isActive = (path) => location.pathname === path || path === "/invest" && location.pathname === "/investments";
+  const links = /* @__PURE__ */ jsxDEV(Fragment, { children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "mb-3 px-3 text-[10px] font-bold uppercase tracking-[.2em] text-navy-200", children: "Workspace" }, void 0, false, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+      lineNumber: 40,
+      columnNumber: 5
+    }, this),
+    navItems.map(({ path, label, icon: Icon }) => /* @__PURE__ */ jsxDEV(Link, { to: path, onClick: () => setMobileOpen(false), className: `group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${isActive(path) ? "bg-emerald/10 font-semibold text-emerald" : "text-navy-200 hover:bg-white/[.05] hover:text-ivory-50"}`, children: [
+      /* @__PURE__ */ jsxDEV(Icon, { size: 17, strokeWidth: isActive(path) ? 2.4 : 1.8 }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 41,
+        columnNumber: 324
+      }, this),
+      /* @__PURE__ */ jsxDEV("span", { children: label }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 41,
+        columnNumber: 383
+      }, this),
+      isActive(path) && /* @__PURE__ */ jsxDEV("span", { className: "ml-auto h-1.5 w-1.5 rounded-full bg-emerald" }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 41,
+        columnNumber: 422
+      }, this)
+    ] }, path, true, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+      lineNumber: 41,
+      columnNumber: 52
+    }, this)),
+    /* @__PURE__ */ jsxDEV("div", { className: "mb-3 mt-8 px-3 text-[10px] font-bold uppercase tracking-[.2em] text-navy-200", children: "Account" }, void 0, false, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+      lineNumber: 42,
+      columnNumber: 5
+    }, this),
+    /* @__PURE__ */ jsxDEV(Link, { to: "/settings", onClick: () => setMobileOpen(false), className: `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${location.pathname === "/settings" ? "bg-emerald/10 font-semibold text-emerald" : "text-navy-200 hover:bg-white/[.05] hover:text-ivory-50"}`, children: [
+      /* @__PURE__ */ jsxDEV(Settings, { size: 17 }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 43,
+        columnNumber: 284
+      }, this),
+      /* @__PURE__ */ jsxDEV("span", { children: "Settings" }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 43,
+        columnNumber: 306
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+      lineNumber: 43,
+      columnNumber: 5
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+    lineNumber: 39,
+    columnNumber: 17
+  }, this);
+  return /* @__PURE__ */ jsxDEV("div", { className: "min-h-screen bg-navy text-ivory-50", children: [
+    /* @__PURE__ */ jsxDEV("aside", { className: "fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-white/[.07] bg-[#0D141F] px-4 py-5 lg:flex lg:flex-col", children: [
+      /* @__PURE__ */ jsxDEV(Link, { to: "/dashboard", className: "mb-10 flex items-center gap-3 px-3", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex h-9 w-9 items-center justify-center rounded-xl bg-champagne text-lg font-bold text-navy-700", children: "H" }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+          lineNumber: 48,
+          columnNumber: 76
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { className: "font-display text-xl font-semibold tracking-tight", children: "Hindsight" }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+          lineNumber: 48,
+          columnNumber: 197
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 48,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ jsxDEV("nav", { className: "flex-1", children: links }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 49,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "border-t border-white/[.07] pt-4", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "mb-3 flex items-center gap-3 px-3", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "avatar !h-8 !w-8 !text-sm", children: user?.full_name?.charAt(0) || "U" }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+            lineNumber: 50,
+            columnNumber: 108
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "min-w-0", children: [
+            /* @__PURE__ */ jsxDEV("p", { className: "truncate text-xs font-semibold text-ivory-50", children: user?.full_name }, void 0, false, {
+              fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+              lineNumber: 50,
+              columnNumber: 217
+            }, this),
+            /* @__PURE__ */ jsxDEV("p", { className: "truncate text-[10px] text-navy-200", children: user?.is_demo ? "Demo workspace" : user?.email }, void 0, false, {
+              fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+              lineNumber: 50,
+              columnNumber: 298
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+            lineNumber: 50,
+            columnNumber: 192
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+          lineNumber: 50,
+          columnNumber: 57
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { onClick: logout, className: "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-navy-200 transition hover:bg-loss/10 hover:text-loss", children: [
+          /* @__PURE__ */ jsxDEV(LogOut, { size: 17 }, void 0, false, {
+            fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+            lineNumber: 50,
+            columnNumber: 569
+          }, this),
+          " Sign out"
+        ] }, void 0, true, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+          lineNumber: 50,
+          columnNumber: 412
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 50,
+        columnNumber: 7
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+      lineNumber: 47,
+      columnNumber: 5
+    }, this),
+    /* @__PURE__ */ jsxDEV("header", { className: "sticky top-0 z-20 flex h-16 items-center justify-between border-b border-white/[.07] bg-[#0B1019]/90 px-4 backdrop-blur lg:hidden", children: [
+      /* @__PURE__ */ jsxDEV(Link, { to: "/dashboard", className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDEV("span", { className: "flex h-8 w-8 items-center justify-center rounded-lg bg-champagne font-bold text-navy-700", children: "H" }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+          lineNumber: 52,
+          columnNumber: 213
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { className: "font-display text-lg font-semibold", children: "Hindsight" }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+          lineNumber: 52,
+          columnNumber: 328
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 52,
+        columnNumber: 155
+      }, this),
+      /* @__PURE__ */ jsxDEV("button", { onClick: () => setMobileOpen(!mobileOpen), className: "text-ivory-50", children: mobileOpen ? /* @__PURE__ */ jsxDEV(X, {}, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 52,
+        columnNumber: 495
+      }, this) : /* @__PURE__ */ jsxDEV(Menu, {}, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 52,
+        columnNumber: 503
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 52,
+        columnNumber: 404
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+      lineNumber: 52,
+      columnNumber: 5
+    }, this),
+    mobileOpen && /* @__PURE__ */ jsxDEV("div", { className: "fixed inset-0 z-10 bg-[#0D141F] px-5 pb-8 pt-24 lg:hidden", children: [
+      /* @__PURE__ */ jsxDEV("nav", { children: links }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 53,
+        columnNumber: 95
+      }, this),
+      /* @__PURE__ */ jsxDEV("button", { onClick: logout, className: "mt-8 flex items-center gap-3 px-3 py-2.5 text-sm text-loss", children: [
+        /* @__PURE__ */ jsxDEV(LogOut, { size: 17 }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+          lineNumber: 53,
+          columnNumber: 209
+        }, this),
+        " Sign out"
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 53,
+        columnNumber: 113
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+      lineNumber: 53,
+      columnNumber: 20
+    }, this),
+    /* @__PURE__ */ jsxDEV("main", { className: "min-h-screen lg:pl-64", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "mx-auto max-w-[1480px] px-4 py-7 sm:px-6 lg:px-10 lg:py-10", children }, void 0, false, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 54,
+        columnNumber: 45
+      }, this),
+      /* @__PURE__ */ jsxDEV("footer", { className: "mx-auto flex max-w-[1480px] items-center gap-2 px-4 pb-8 text-[11px] text-navy-200 sm:px-6 lg:px-10", children: [
+        /* @__PURE__ */ jsxDEV(CircleHelp, { size: 13 }, void 0, false, {
+          fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+          lineNumber: 54,
+          columnNumber: 257
+        }, this),
+        " Educational simulation only · all money is virtual INR · not financial advice."
+      ] }, void 0, true, {
+        fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+        lineNumber: 54,
+        columnNumber: 137
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+      lineNumber: 54,
+      columnNumber: 5
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx",
+    lineNumber: 46,
+    columnNumber: 10
+  }, this);
+}
+_s(AppLayout, "Qab+wdkRb803d5MUZJ0YOd6NBbI=", false, function() {
+  return [useAuth, useLocation];
+});
+_c = AppLayout;
+var _c;
+$RefreshReg$(_c, "AppLayout");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/prarthana/Desktop/Fintech appl/frontend/src/components/AppLayout.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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QUEsU0FTUDtBQUNGO0FBQUNDLEdBdEJ1QkYsV0FBUztBQUFBLFVBQ05qQixTQUNSRCxXQUFXO0FBQUE7QUFBQSxLQUZOa0I7QUFBUyxJQUFBaUI7QUFBQSxhQUFBQSxJQUFBIiwibmFtZXMiOlsiTGluayIsInVzZUxvY2F0aW9uIiwidXNlQXV0aCIsIkJhckNoYXJ0MyIsIkNpcmNsZUhlbHAiLCJMYXlvdXREYXNoYm9hcmQiLCJMb2dPdXQiLCJNZW51IiwiUmVmcmVzaEN3IiwiU2V0dGluZ3MiLCJTaGllbGQiLCJUcmVuZGluZ1VwIiwiV2FsbGV0IiwiWCIsInVzZVN0YXRlIiwibmF2SXRlbXMiLCJwYXRoIiwibGFiZWwiLCJpY29uIiwiQXBwTGF5b3V0IiwiY2hpbGRyZW4iLCJfcyIsInVzZXIiLCJsb2dvdXQiLCJsb2NhdGlvbiIsIm1vYmlsZU9wZW4iLCJzZXRNb2JpbGVPcGVuIiwiaXNBY3RpdmUiLCJwYXRobmFtZSIsImxpbmtzIiwibWFwIiwiSWNvbiIsImZ1bGxfbmFtZSIsImNoYXJBdCIsImlzX2RlbW8iLCJlbWFpbCIsIl9jIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkFwcExheW91dC50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgTGluaywgdXNlTG9jYXRpb24gfSBmcm9tICdyZWFjdC1yb3V0ZXItZG9tJztcbmltcG9ydCB7IHVzZUF1dGggfSBmcm9tICcuLi9BdXRoQ29udGV4dCc7XG5pbXBvcnQgeyBCYXJDaGFydDMsIEJvb2tPcGVuLCBDaXJjbGVIZWxwLCBMYXlvdXREYXNoYm9hcmQsIExvZ091dCwgTWVudSwgUmVmcmVzaEN3LCBTZXR0aW5ncywgU2hpZWxkLCBUcmVuZGluZ1VwLCBXYWxsZXQsIFggfSBmcm9tICdsdWNpZGUtcmVhY3QnO1xuaW1wb3J0IHsgdXNlU3RhdGUgfSBmcm9tICdyZWFjdCc7XG5cbmNvbnN0IG5hdkl0ZW1zID0gW1xuICB7IHBhdGg6ICcvZGFzaGJvYXJkJywgbGFiZWw6ICdEYXNoYm9hcmQnLCBpY29uOiBMYXlvdXREYXNoYm9hcmQgfSxcbiAgeyBwYXRoOiAnL2ludmVzdCcsIGxhYmVsOiAnRXhwbG9yZSBBc3NldHMnLCBpY29uOiBUcmVuZGluZ1VwIH0sXG4gIHsgcGF0aDogJy9pbnZlc3RtZW50cycsIGxhYmVsOiAnTXkgSW52ZXN0bWVudHMnLCBpY29uOiBCYXJDaGFydDMgfSxcbiAgeyBwYXRoOiAnL3Jpc2snLCBsYWJlbDogJ1Jpc2sgUHJvZmlsZScsIGljb246IFNoaWVsZCB9LFxuICB7IHBhdGg6ICcvd2FsbGV0JywgbGFiZWw6ICdXYWxsZXQnLCBpY29uOiBXYWxsZXQgfSxcbiAgeyBwYXRoOiAnL3JlYmFsYW5jZScsIGxhYmVsOiAnUmViYWxhbmNpbmcnLCBpY29uOiBSZWZyZXNoQ3cgfSxcbl07XG5cbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIEFwcExheW91dCh7IGNoaWxkcmVuIH06IHsgY2hpbGRyZW46IFJlYWN0LlJlYWN0Tm9kZSB9KSB7XG4gIGNvbnN0IHsgdXNlciwgbG9nb3V0IH0gPSB1c2VBdXRoKCk7XG4gIGNvbnN0IGxvY2F0aW9uID0gdXNlTG9jYXRpb24oKTtcbiAgY29uc3QgW21vYmlsZU9wZW4sIHNldE1vYmlsZU9wZW5dID0gdXNlU3RhdGUoZmFsc2UpO1xuICBjb25zdCBpc0FjdGl2ZSA9IChwYXRoOiBzdHJpbmcpID0+IGxvY2F0aW9uLnBhdGhuYW1lID09PSBwYXRoIHx8IChwYXRoID09PSAnL2ludmVzdCcgJiYgbG9jYXRpb24ucGF0aG5hbWUgPT09ICcvaW52ZXN0bWVudHMnKTtcbiAgY29uc3QgbGlua3MgPSA8PlxuICAgIDxkaXYgY2xhc3NOYW1lPVwibWItMyBweC0zIHRleHQtWzEwcHhdIGZvbnQtYm9sZCB1cHBlcmNhc2UgdHJhY2tpbmctWy4yZW1dIHRleHQtbmF2eS0yMDBcIj5Xb3Jrc3BhY2U8L2Rpdj5cbiAgICB7bmF2SXRlbXMubWFwKCh7IHBhdGgsIGxhYmVsLCBpY29uOiBJY29uIH0pID0+IDxMaW5rIGtleT17cGF0aH0gdG89e3BhdGh9IG9uQ2xpY2s9eygpID0+IHNldE1vYmlsZU9wZW4oZmFsc2UpfSBjbGFzc05hbWU9e2Bncm91cCBmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMyByb3VuZGVkLXhsIHB4LTMgcHktMi41IHRleHQtc20gdHJhbnNpdGlvbiAke2lzQWN0aXZlKHBhdGgpID8gJ2JnLWVtZXJhbGQvMTAgZm9udC1zZW1pYm9sZCB0ZXh0LWVtZXJhbGQnIDogJ3RleHQtbmF2eS0yMDAgaG92ZXI6Ymctd2hpdGUvWy4wNV0gaG92ZXI6dGV4dC1pdm9yeS01MCd9YH0+PEljb24gc2l6ZT17MTd9IHN0cm9rZVdpZHRoPXtpc0FjdGl2ZShwYXRoKSA/IDIuNCA6IDEuOH0vPjxzcGFuPntsYWJlbH08L3NwYW4+e2lzQWN0aXZlKHBhdGgpICYmIDxzcGFuIGNsYXNzTmFtZT1cIm1sLWF1dG8gaC0xLjUgdy0xLjUgcm91bmRlZC1mdWxsIGJnLWVtZXJhbGRcIi8+fTwvTGluaz4pfVxuICAgIDxkaXYgY2xhc3NOYW1lPVwibWItMyBtdC04IHB4LTMgdGV4dC1bMTBweF0gZm9udC1ib2xkIHVwcGVyY2FzZSB0cmFja2luZy1bLjJlbV0gdGV4dC1uYXZ5LTIwMFwiPkFjY291bnQ8L2Rpdj5cbiAgICA8TGluayB0bz1cIi9zZXR0aW5nc1wiIG9uQ2xpY2s9eygpID0+IHNldE1vYmlsZU9wZW4oZmFsc2UpfSBjbGFzc05hbWU9e2BmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMyByb3VuZGVkLXhsIHB4LTMgcHktMi41IHRleHQtc20gdHJhbnNpdGlvbiAke2xvY2F0aW9uLnBhdGhuYW1lID09PSAnL3NldHRpbmdzJyA/ICdiZy1lbWVyYWxkLzEwIGZvbnQtc2VtaWJvbGQgdGV4dC1lbWVyYWxkJyA6ICd0ZXh0LW5hdnktMjAwIGhvdmVyOmJnLXdoaXRlL1suMDVdIGhvdmVyOnRleHQtaXZvcnktNTAnfWB9PjxTZXR0aW5ncyBzaXplPXsxN30vPjxzcGFuPlNldHRpbmdzPC9zcGFuPjwvTGluaz5cbiAgPC8+O1xuXG4gIHJldHVybiA8ZGl2IGNsYXNzTmFtZT1cIm1pbi1oLXNjcmVlbiBiZy1uYXZ5IHRleHQtaXZvcnktNTBcIj5cbiAgICA8YXNpZGUgY2xhc3NOYW1lPVwiZml4ZWQgaW5zZXQteS0wIGxlZnQtMCB6LTMwIGhpZGRlbiB3LTY0IGJvcmRlci1yIGJvcmRlci13aGl0ZS9bLjA3XSBiZy1bIzBEMTQxRl0gcHgtNCBweS01IGxnOmZsZXggbGc6ZmxleC1jb2xcIj5cbiAgICAgIDxMaW5rIHRvPVwiL2Rhc2hib2FyZFwiIGNsYXNzTmFtZT1cIm1iLTEwIGZsZXggaXRlbXMtY2VudGVyIGdhcC0zIHB4LTNcIj48ZGl2IGNsYXNzTmFtZT1cImZsZXggaC05IHctOSBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgcm91bmRlZC14bCBiZy1jaGFtcGFnbmUgdGV4dC1sZyBmb250LWJvbGQgdGV4dC1uYXZ5LTcwMFwiPkg8L2Rpdj48c3BhbiBjbGFzc05hbWU9XCJmb250LWRpc3BsYXkgdGV4dC14bCBmb250LXNlbWlib2xkIHRyYWNraW5nLXRpZ2h0XCI+SGluZHNpZ2h0PC9zcGFuPjwvTGluaz5cbiAgICAgIDxuYXYgY2xhc3NOYW1lPVwiZmxleC0xXCI+e2xpbmtzfTwvbmF2PlxuICAgICAgPGRpdiBjbGFzc05hbWU9XCJib3JkZXItdCBib3JkZXItd2hpdGUvWy4wN10gcHQtNFwiPjxkaXYgY2xhc3NOYW1lPVwibWItMyBmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMyBweC0zXCI+PGRpdiBjbGFzc05hbWU9XCJhdmF0YXIgIWgtOCAhdy04ICF0ZXh0LXNtXCI+e3VzZXI/LmZ1bGxfbmFtZT8uY2hhckF0KDApIHx8ICdVJ308L2Rpdj48ZGl2IGNsYXNzTmFtZT1cIm1pbi13LTBcIj48cCBjbGFzc05hbWU9XCJ0cnVuY2F0ZSB0ZXh0LXhzIGZvbnQtc2VtaWJvbGQgdGV4dC1pdm9yeS01MFwiPnt1c2VyPy5mdWxsX25hbWV9PC9wPjxwIGNsYXNzTmFtZT1cInRydW5jYXRlIHRleHQtWzEwcHhdIHRleHQtbmF2eS0yMDBcIj57dXNlcj8uaXNfZGVtbyA/ICdEZW1vIHdvcmtzcGFjZScgOiB1c2VyPy5lbWFpbH08L3A+PC9kaXY+PC9kaXY+PGJ1dHRvbiBvbkNsaWNrPXtsb2dvdXR9IGNsYXNzTmFtZT1cImZsZXggdy1mdWxsIGl0ZW1zLWNlbnRlciBnYXAtMyByb3VuZGVkLXhsIHB4LTMgcHktMi41IHRleHQtc20gdGV4dC1uYXZ5LTIwMCB0cmFuc2l0aW9uIGhvdmVyOmJnLWxvc3MvMTAgaG92ZXI6dGV4dC1sb3NzXCI+PExvZ091dCBzaXplPXsxN30vPiBTaWduIG91dDwvYnV0dG9uPjwvZGl2PlxuICAgIDwvYXNpZGU+XG4gICAgPGhlYWRlciBjbGFzc05hbWU9XCJzdGlja3kgdG9wLTAgei0yMCBmbGV4IGgtMTYgaXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlbiBib3JkZXItYiBib3JkZXItd2hpdGUvWy4wN10gYmctWyMwQjEwMTldLzkwIHB4LTQgYmFja2Ryb3AtYmx1ciBsZzpoaWRkZW5cIj48TGluayB0bz1cIi9kYXNoYm9hcmRcIiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMlwiPjxzcGFuIGNsYXNzTmFtZT1cImZsZXggaC04IHctOCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgcm91bmRlZC1sZyBiZy1jaGFtcGFnbmUgZm9udC1ib2xkIHRleHQtbmF2eS03MDBcIj5IPC9zcGFuPjxzcGFuIGNsYXNzTmFtZT1cImZvbnQtZGlzcGxheSB0ZXh0LWxnIGZvbnQtc2VtaWJvbGRcIj5IaW5kc2lnaHQ8L3NwYW4+PC9MaW5rPjxidXR0b24gb25DbGljaz17KCkgPT4gc2V0TW9iaWxlT3BlbighbW9iaWxlT3Blbil9IGNsYXNzTmFtZT1cInRleHQtaXZvcnktNTBcIj57bW9iaWxlT3BlbiA/IDxYLz4gOiA8TWVudS8+fTwvYnV0dG9uPjwvaGVhZGVyPlxuICAgIHttb2JpbGVPcGVuICYmIDxkaXYgY2xhc3NOYW1lPVwiZml4ZWQgaW5zZXQtMCB6LTEwIGJnLVsjMEQxNDFGXSBweC01IHBiLTggcHQtMjQgbGc6aGlkZGVuXCI+PG5hdj57bGlua3N9PC9uYXY+PGJ1dHRvbiBvbkNsaWNrPXtsb2dvdXR9IGNsYXNzTmFtZT1cIm10LTggZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTMgcHgtMyBweS0yLjUgdGV4dC1zbSB0ZXh0LWxvc3NcIj48TG9nT3V0IHNpemU9ezE3fS8+IFNpZ24gb3V0PC9idXR0b24+PC9kaXY+fVxuICAgIDxtYWluIGNsYXNzTmFtZT1cIm1pbi1oLXNjcmVlbiBsZzpwbC02NFwiPjxkaXYgY2xhc3NOYW1lPVwibXgtYXV0byBtYXgtdy1bMTQ4MHB4XSBweC00IHB5LTcgc206cHgtNiBsZzpweC0xMCBsZzpweS0xMFwiPntjaGlsZHJlbn08L2Rpdj48Zm9vdGVyIGNsYXNzTmFtZT1cIm14LWF1dG8gZmxleCBtYXgtdy1bMTQ4MHB4XSBpdGVtcy1jZW50ZXIgZ2FwLTIgcHgtNCBwYi04IHRleHQtWzExcHhdIHRleHQtbmF2eS0yMDAgc206cHgtNiBsZzpweC0xMFwiPjxDaXJjbGVIZWxwIHNpemU9ezEzfS8+IEVkdWNhdGlvbmFsIHNpbXVsYXRpb24gb25seSDCtyBhbGwgbW9uZXkgaXMgdmlydHVhbCBJTlIgwrcgbm90IGZpbmFuY2lhbCBhZHZpY2UuPC9mb290ZXI+PC9tYWluPlxuICA8L2Rpdj47XG59XG4iXSwiZmlsZSI6IkM6L1VzZXJzL3ByYXJ0aGFuYS9EZXNrdG9wL0ZpbnRlY2ggYXBwbC9mcm9udGVuZC9zcmMvY29tcG9uZW50cy9BcHBMYXlvdXQudHN4In0=
