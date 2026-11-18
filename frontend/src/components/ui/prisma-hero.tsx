@@ -40,7 +40,7 @@ const navItems = [
   { label: 'Features', href: '#features' },
   { label: 'Our approach', href: '#approach' },
   { label: 'Learn', href: '#learn' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Log in / Sign up', href: '/login' },
 ];
 
 interface PrismaHeroProps { onTryDemo: () => void; loading?: boolean; activeSection?: string }
