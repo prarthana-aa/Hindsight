@@ -9,6 +9,9 @@ import Wallet from './pages/Wallet';
 import Invest from './pages/Invest';
 import Rebalance from './pages/Rebalance';
 import Settings from './pages/Settings';
+import Portfolio from './pages/Portfolio';
+import Recommendations from './pages/Recommendations';
+import Transactions from './pages/Transactions';
 import AppLayout from './components/AppLayout';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -44,6 +47,18 @@ export default function App() {
         <Route
           path="/investments"
           element={<ProtectedRoute><AppLayout><Invest /></AppLayout></ProtectedRoute>}
+        />
+        <Route
+          path="/portfolio"
+          element={<ProtectedRoute><AppLayout><Portfolio /></AppLayout></ProtectedRoute>}
+        />
+        <Route
+          path="/recommendations"
+          element={<ProtectedRoute><AppLayout><Recommendations /></AppLayout></ProtectedRoute>}
+        />
+        <Route
+          path="/transactions"
+          element={<ProtectedRoute><AppLayout><Transactions /></AppLayout></ProtectedRoute>}
         />
         <Route
           path="/rebalance"
