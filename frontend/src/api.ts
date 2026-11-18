@@ -80,5 +80,6 @@ export const applyAdvice = (data: {
   goal_type?: string;
   horizon_years?: number;
 }) => api.post('/advice/apply', data);
+export const getAdviceProfile = () => api.get('/advice/profile');
 
 export default api;

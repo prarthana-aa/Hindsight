@@ -1,22 +1,22 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, RefreshCw, ShieldCheck } from 'lucide-react';
-import { getAssetHistory, getOrders, getPortfolioDashboard, getWalletBalance } from '../api';
+import { getAdviceProfile, getAssetHistory, getOrders, getPortfolioDashboard, getWalletBalance } from '../api';
 import { useAuth } from '../AuthContext';
 import { AppButton, AllocationChart, ErrorState, HoldingTable, LoadingSkeleton, MarketChart, MetricDisplay, PageHeader, SavingNotice, SectionLabel, Surface, TransactionList, appDate, appMoney } from '../components/app-ui';
 
 const periodDays: Record<string, number> = { '1W': 7, '1M': 30, '3M': 90, '6M': 180, '1Y': 365, ALL: Infinity };
 
 export default function Dashboard() {
-  const [dashboard, setDashboard] = useState<any>(); const [wallet, setWallet] = useState<any>(); const [orders, setOrders] = useState<any[]>([]); const [history, setHistory] = useState<any[]>([]); const [period, setPeriod] = useState('3M'); const [error, setError] = useState('');
+  const [dashboard, setDashboard] = useState<any>(); const [wallet, setWallet] = useState<any>(); const [orders, setOrders] = useState<any[]>([]); const [history, setHistory] = useState<any[]>([]); const [profile, setProfile] = useState<any>(); const [period, setPeriod] = useState('3M'); const [error, setError] = useState('');
   const { user } = useAuth();
-  const load = async () => { setError(''); try { const [portfolio, balance, prices, orderResponse] = await Promise.all([getPortfolioDashboard(), getWalletBalance(), getAssetHistory('NIFTY50'), getOrders()]); setDashboard(portfolio.data); setWallet(balance.data); setHistory(prices.data.data || []); setOrders(orderResponse.data || []); } catch { setError('We could not load the workspace data. Please try again.'); } };
+  const load = async () => { setError(''); try { const [portfolio, balance, prices, orderResponse, recommendation] = await Promise.all([getPortfolioDashboard(), getWalletBalance(), getAssetHistory('NIFTY50'), getOrders(), getAdviceProfile().catch(() => null)]); setDashboard(portfolio.data); setWallet(balance.data); setHistory(prices.data.data || []); setOrders(orderResponse.data || []); setProfile(recommendation?.data); } catch { setError('We could not load the workspace data. Please try again.'); } };
   useEffect(() => { load(); }, []);
   const chartData = useMemo(() => { const days = periodDays[period]; const rows = days === Infinity ? history : history.slice(-days); return rows.map(item => ({ date: new Date(item.date).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }), value: Number(item.close) })); }, [history, period]);
   if (error) return <ErrorState message={error} onRetry={load}/>;
   if (!dashboard || !wallet) return <LoadingSkeleton rows={7}/>;
   const total = Number(dashboard.total_portfolio_value); const pnl = Number(dashboard.total_unrealized_pnl); const holdings = dashboard.holdings || []; const allocation = holdings.map((h: any) => ({ name: h.asset, value: Number(h.market_value) }));
-  const nextAction = !dashboard.target_allocation ? { title: 'Complete your risk profile', text: 'Answer a few questions to receive a rule-based allocation.', href: '/risk', label: 'Build my profile' } : !holdings.length ? { title: 'Explore your first investment', text: 'Your recommendation is ready. Explore the supported asset proxies.', href: '/investments', label: 'Explore assets' } : dashboard.needs_rebalance ? { title: 'Your allocation has drifted', text: 'Review the proposed trades and decide whether to rebalance.', href: '/rebalance', label: 'Review drift' } : { title: 'Your portfolio is on course', text: 'Review holdings, wallet movements and market context.', href: '/portfolio', label: 'View portfolio' };
+  const nextAction = !profile ? { title: 'Complete your risk assessment', text: 'Complete your risk assessment to receive an investment allocation suited to your preferences.', href: '/risk', label: 'Complete assessment' } : !dashboard.target_allocation ? { title: 'Review your recommendation', text: 'Your investor profile is ready. Explore your recommended asset allocation.', href: '/recommendations', label: 'View recommendations' } : !holdings.length ? { title: 'Your portfolio is currently empty', text: 'Explore supported investments to begin building your virtual portfolio.', href: '/investments', label: 'Explore investments' } : dashboard.needs_rebalance ? { title: 'Your allocation has drifted', text: 'Your portfolio has moved away from its recommended allocation. Review the suggested adjustments.', href: '/rebalance', label: 'Review rebalancing' } : { title: 'Your portfolio is close to target', text: 'Your portfolio is currently close to its recommended allocation.', href: '/portfolio', label: 'View portfolio' };
   const hour = new Date().getHours(); const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
   return <div className="space-y-6">
     <PageHeader eyebrow="Overview" title="Your money, in perspective." description={`${greeting}, ${user?.full_name?.split(' ')[0] || 'investor'}. ${appDate(new Date().toISOString())} · Virtual INR account`} action={<AppButton variant="quiet" onClick={load}><RefreshCw size={15}/> Refresh</AppButton>}/>

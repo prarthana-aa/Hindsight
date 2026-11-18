@@ -25,7 +25,7 @@ from backend.routers.portfolio import (
     execute_rebalance,
 )
 from backend.routers.prices import get_all_prices, get_single_price, get_history, force_refresh_prices
-from backend.routers.advice import get_risk_questions, evaluate_risk_and_recommend, apply_recommendation_to_user
+from backend.routers.advice import get_risk_questions, evaluate_risk_and_recommend, apply_recommendation_to_user, get_user_recommendation
 from backend.schemas import (
     UserSignupRequest,
     UserLoginRequest,
@@ -168,6 +168,11 @@ def test_advice_questions_and_scoring_api(db, test_user):
     # Apply to user
     applied = apply_recommendation_to_user(payload=payload, user=test_user, db=db)
     assert applied.risk_score == rec.risk_score
+
+    persisted = get_user_recommendation(user=test_user, db=db)
+    assert persisted.risk_label == applied.risk_label
+    assert round(sum(persisted.target_allocation.values()), 6) == 1.0
+    assert {asset.asset for asset in persisted.assets} == {"NIFTY50", "GILT", "GOLD", "INTLEQ"}
 
 
 def test_prices_router(db):

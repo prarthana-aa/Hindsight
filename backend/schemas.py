@@ -193,3 +193,16 @@ class RecommendationResponse(BaseModel):
     expected_annual_volatility: float
     rule_version: str
     disclaimer: str
+
+
+class AssetRecommendationResponse(BaseModel):
+    asset: str
+    name: str
+    role: str
+    target_weight: float
+    expected_return: float
+    volatility: float
+
+
+class UserRecommendationResponse(RecommendationResponse):
+    assets: List[AssetRecommendationResponse]

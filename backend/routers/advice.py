@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models import User, RiskProfile, Portfolio, AuditLog
 from ..auth import get_current_user
-from ..schemas import RiskProfileSubmitRequest, RecommendationResponse
+from ..schemas import RiskProfileSubmitRequest, RecommendationResponse, UserRecommendationResponse, AssetRecommendationResponse
 from ..config import DISCLAIMER_TEXT
 from finance_engine.risk_scoring import (
     QUESTIONS,
@@ -24,6 +24,51 @@ from finance_engine.allocation import (
 )
 
 router = APIRouter(prefix="/advice", tags=["Robo-Advice & Suitability"])
+
+
+@router.get("/profile", response_model=UserRecommendationResponse)
+def get_user_recommendation(
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Return the authenticated user's persisted risk profile and target allocation."""
+    risk_profile = db.query(RiskProfile).filter(RiskProfile.user_id == user.id).first()
+    portfolio = db.query(Portfolio).filter(Portfolio.user_id == user.id).first()
+    if not risk_profile or not portfolio or not portfolio.target_allocation:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Complete the risk assessment to generate your recommendation.",
+        )
+
+    allocation = get_allocation(risk_profile.final_score)
+    capacity = float(risk_profile.capacity_score)
+    tolerance = float(risk_profile.tolerance_score)
+    driver = "capacity" if capacity < tolerance else "tolerance" if tolerance < capacity else "balanced"
+    assets = [
+        AssetRecommendationResponse(
+            asset=asset,
+            name=metadata["name"],
+            role=metadata["role"],
+            target_weight=float(portfolio.target_allocation.get(asset, 0.0)),
+            expected_return=float(metadata["expected_return"]),
+            volatility=float(metadata["volatility"]),
+        )
+        for asset, metadata in ASSET_PROXIES.items()
+    ]
+    return UserRecommendationResponse(
+        risk_score=float(risk_profile.final_score),
+        risk_label=risk_profile.risk_label,
+        capacity_score=capacity,
+        tolerance_score=tolerance,
+        constraint_driver=driver,
+        target_allocation={key: float(value) for key, value in portfolio.target_allocation.items()},
+        suitability_explanation=portfolio.suitability_rationale or allocation["description"],
+        expected_annual_return=float(allocation["expected_annual_return"]),
+        expected_annual_volatility=float(allocation["expected_annual_volatility"]),
+        rule_version=risk_profile.rule_version,
+        disclaimer=DISCLAIMER_TEXT,
+        assets=assets,
+    )
 
 
 @router.get("/questions")
