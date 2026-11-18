@@ -8,6 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
 FALLBACK_CSV_PATH = DATA_DIR / "prices_fallback.csv"
 DB_PATH = BASE_DIR / "hindsight.db"
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development").strip().lower()
 
 
 def _database_url() -> str:
@@ -27,10 +28,11 @@ def _database_url() -> str:
 
 DB_URL = _database_url()
 
-ENVIRONMENT = os.getenv("ENVIRONMENT", "development").strip().lower()
 _configured_database_url = os.getenv("DATABASE_URL", "").strip()
 if ENVIRONMENT == "production" and not _configured_database_url:
     raise RuntimeError("DATABASE_URL must be set in production; refusing ephemeral SQLite.")
+if ENVIRONMENT == "production" and not DB_URL.startswith("postgresql"):
+    raise RuntimeError("Production DATABASE_URL must use PostgreSQL; SQLite is not allowed.")
 _DEV_SECRET_KEY = "hindsight-local-development-secret"
 _configured_secret = os.getenv("SECRET_KEY", "").strip()
 if ENVIRONMENT == "production" and len(_configured_secret) < 32:

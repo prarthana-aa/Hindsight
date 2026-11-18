@@ -55,6 +55,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
+    lifespan=lifespan,
     title="Hindsight Robo-Advisor API",
     description=(
         "Micro-Investing Robo-Advisor platform with double-entry wallet ledger, "
