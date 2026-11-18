@@ -1,16 +1,225 @@
 import { useEffect, useState } from 'react';
 import { Check, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { applyAdvice, getQuestions, scoreRisk } from '../api';
-import { AppButton, ErrorState, InlineLoader, LoadingSkeleton, PageHeader, SectionLabel, Surface, appMoney } from '../components/app-ui';
+import {
+  AppButton,
+  ErrorState,
+  InlineLoader,
+  LoadingSkeleton,
+  PageHeader,
+  SectionLabel,
+  Surface,
+} from '../components/app-ui';
+
+type AssetProxy = {
+  name?: string;
+  role?: string;
+};
 
 export default function Risk() {
-  const [questions, setQuestions] = useState<any[]>([]); const [answers, setAnswers] = useState<Record<string, number>>({}); const [step, setStep] = useState(0); const [result, setResult] = useState<any>(); const [busy, setBusy] = useState(false); const [error, setError] = useState(''); const [message, setMessage] = useState('');
-  useEffect(() => { getQuestions().then(res => setQuestions(res.data.questions || [])).catch(() => setError('Unable to load the risk questions.')); }, []);
-  if (error) return <ErrorState message={error}/>; if (!questions.length) return <LoadingSkeleton rows={5}/>;
-  const question = questions[step]; const progress = ((step + 1) / questions.length) * 100; const choose = (index: number) => setAnswers(current => ({ ...current, [question.id]: index }));
-  const calculate = async () => { setBusy(true); setMessage(''); try { const res = await scoreRisk({ answers }); setResult(res.data); } catch { setMessage('Could not calculate your profile.'); } finally { setBusy(false); } };
-  const apply = async () => { setBusy(true); setMessage(''); try { const res = await applyAdvice({ answers }); setResult(res.data); setMessage('Recommendation applied to your portfolio.'); } catch { setMessage('Could not apply the recommendation.'); } finally { setBusy(false); } };
-  return <div className="space-y-6"><PageHeader eyebrow="Plan · risk profile" title="Understand your investor profile." description="Risk capacity describes what your circumstances can support. Risk tolerance describes how you may respond to volatility."/>{!result ? <Surface className="max-w-3xl"><div className="app-progress"><div className="flex justify-between"><SectionLabel>{question.category === 'capacity' ? 'Risk capacity' : 'Risk tolerance'} · Question {step + 1} of {questions.length}</SectionLabel><span className="app-section-description">{Math.round(progress)}% complete</span></div><div className="app-progress-track"><span style={{ width: `${progress}%` }}/></div></div><div className="mt-10"><h2 className="app-section-title max-w-2xl">{question.text}</h2><div className="app-option-list">{question.options.map((option: any[], index: number) => <button className={`app-option ${answers[question.id] === index ? 'is-selected' : ''}`} key={index} onClick={() => choose(index)}><span className="app-option-check">{answers[question.id] === index && <Check size={13}/>}</span><span>{option[0]}</span></button>)}</div></div><div className="app-actions"><AppButton variant="secondary" disabled={step === 0} onClick={() => setStep(value => value - 1)}><ChevronLeft size={16}/> Back</AppButton>{step < questions.length - 1 ? <AppButton disabled={answers[question.id] === undefined} onClick={() => setStep(value => value + 1)}>Continue <ChevronRight size={16}/></AppButton> : <AppButton disabled={Object.keys(answers).length !== questions.length || busy} onClick={calculate}>{busy ? <InlineLoader/> : <Sparkles size={15}/>} See my profile</AppButton>}</div>{message && <p className="app-form-error mt-4">{message}</p>}</Surface> : <RiskResult result={result} onApply={apply} busy={busy} message={message}/>}<p className="app-disclaimer">This questionnaire is an educational simulation. It does not constitute registered investment advice.</p></div>;
+  const [questions, setQuestions] = useState<any[]>([]);
+  const [assetProxies, setAssetProxies] = useState<Record<string, AssetProxy>>({});
+  const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [step, setStep] = useState(0);
+  const [result, setResult] = useState<any>();
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    getQuestions()
+      .then((res) => {
+        setQuestions(res.data.questions || []);
+        setAssetProxies(res.data.asset_proxies || {});
+      })
+      .catch(() => setError('Unable to load the risk questions.'));
+  }, []);
+
+  if (error) return <ErrorState message={error} />;
+  if (!questions.length) return <LoadingSkeleton rows={5} />;
+
+  const question = questions[step];
+  const progress = ((step + 1) / questions.length) * 100;
+  const choose = (index: number) =>
+    setAnswers((current) => ({ ...current, [question.id]: index }));
+
+  const calculate = async () => {
+    setBusy(true);
+    setMessage('');
+    try {
+      const res = await scoreRisk({ answers });
+      setResult(res.data);
+    } catch {
+      setMessage('Could not calculate your profile.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const apply = async () => {
+    setBusy(true);
+    setMessage('');
+    try {
+      const res = await applyAdvice({ answers });
+      setResult(res.data);
+      setMessage('Recommendation applied to your portfolio.');
+    } catch {
+      setMessage('Could not apply the recommendation.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <PageHeader
+        eyebrow="Plan · risk profile"
+        title="Understand your investor profile."
+        description="Risk capacity describes what your circumstances can support. Risk tolerance describes how you may respond to volatility."
+      />
+      {!result ? (
+        <Surface className="max-w-3xl">
+          <div className="app-progress">
+            <div className="flex justify-between">
+              <SectionLabel>
+                {question.category === 'capacity' ? 'Risk capacity' : 'Risk tolerance'} · Question {step + 1} of {questions.length}
+              </SectionLabel>
+              <span className="app-section-description">{Math.round(progress)}% complete</span>
+            </div>
+            <div className="app-progress-track">
+              <span style={{ width: `${progress}%` }} />
+            </div>
+          </div>
+          <div className="mt-10">
+            <h2 className="app-section-title max-w-2xl">{question.text}</h2>
+            <div className="app-option-list">
+              {question.options.map((option: any[], index: number) => (
+                <button
+                  className={`app-option ${answers[question.id] === index ? 'is-selected' : ''}`}
+                  key={index}
+                  onClick={() => choose(index)}
+                >
+                  <span className="app-option-check">
+                    {answers[question.id] === index && <Check size={13} />}
+                  </span>
+                  <span>{option[0]}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="app-actions">
+            <AppButton variant="secondary" disabled={step === 0} onClick={() => setStep((value) => value - 1)}>
+              <ChevronLeft size={16} /> Back
+            </AppButton>
+            {step < questions.length - 1 ? (
+              <AppButton disabled={answers[question.id] === undefined} onClick={() => setStep((value) => value + 1)}>
+                Continue <ChevronRight size={16} />
+              </AppButton>
+            ) : (
+              <AppButton disabled={Object.keys(answers).length !== questions.length || busy} onClick={calculate}>
+                {busy ? <InlineLoader /> : <Sparkles size={15} />} See my profile
+              </AppButton>
+            )}
+          </div>
+          {message && <p className="app-form-error mt-4">{message}</p>}
+        </Surface>
+      ) : (
+        <RiskResult result={result} assetProxies={assetProxies} onApply={apply} busy={busy} message={message} />
+      )}
+      <p className="app-disclaimer">This questionnaire is an educational simulation. It does not constitute registered investment advice.</p>
+    </div>
+  );
 }
 
-function RiskResult({ result, onApply, busy, message }: any) { return <section className="app-grid app-grid-main"><Surface className="app-surface-elevated"><SectionLabel>Your profile</SectionLabel><h2 className="app-page-title mt-4">{result.risk_label}</h2><p className="app-section-description mt-3">Final score · {Number(result.risk_score).toFixed(1)} / 10</p><div className="app-grid app-grid-2 mt-10"><div><SectionLabel>Capacity</SectionLabel><strong className="app-metric-value">{Number(result.capacity_score).toFixed(1)}</strong></div><div><SectionLabel>Tolerance</SectionLabel><strong className="app-metric-value">{Number(result.tolerance_score).toFixed(1)}</strong></div></div></Surface><Surface><SectionLabel>Recommendation</SectionLabel><h2 className="app-section-title">A strategy with a reason behind it.</h2><p className="app-section-description mt-4">{result.suitability_explanation}</p><div className="app-bars mt-8">{Object.entries(result.target_allocation || {}).map(([asset, value]: any) => <div className="app-bar-row" key={asset}><span>{asset}</span><div className="app-bar-track"><div className="app-bar-fill" style={{ width: `${Number(value) * 100}%` }}/></div><strong>{(Number(value) * 100).toFixed(0)}%</strong></div>)}</div><div className="app-actions"><AppButton onClick={onApply} disabled={busy}>{busy && <InlineLoader/>}{busy ? 'Applying…' : 'Apply recommendation'}</AppButton><AppButton variant="secondary" onClick={() => window.location.reload()}>Retake assessment</AppButton></div>{message && <p className="app-form-message mt-4">{message}</p>}<p className="app-disclaimer mt-6">Expected annual return {Number(result.expected_annual_return || 0).toFixed(1)}% · expected volatility {Number(result.expected_annual_volatility || 0).toFixed(1)}%</p></Surface></section>; }
+function RiskResult({ result, assetProxies, onApply, busy, message }: any) {
+  const allocation = Object.entries(result.target_allocation || {}) as [string, number][];
+  const growthWeight = (Number(result.target_allocation?.NIFTY50 || 0) + Number(result.target_allocation?.INTLEQ || 0)) * 100;
+  const stabilityWeight = Number(result.target_allocation?.GILT || 0) * 100;
+  const diversifierWeight = Number(result.target_allocation?.GOLD || 0) * 100;
+
+  return (
+    <section className="app-grid app-grid-main">
+      <Surface className="app-surface-elevated">
+        <SectionLabel>Your profile</SectionLabel>
+        <h2 className="app-page-title mt-4">{result.risk_label}</h2>
+        <p className="app-section-description mt-3">Final score · {Number(result.risk_score).toFixed(1)} / 10</p>
+
+        <div className="app-grid app-grid-2 mt-10">
+          <div>
+            <SectionLabel>Capacity</SectionLabel>
+            <strong className="app-metric-value">{Number(result.capacity_score).toFixed(1)}</strong>
+          </div>
+          <div>
+            <SectionLabel>Tolerance</SectionLabel>
+            <strong className="app-metric-value">{Number(result.tolerance_score).toFixed(1)}</strong>
+          </div>
+        </div>
+
+        <div className="risk-breakdown mt-10 border-t border-white/[.08] pt-8">
+          <SectionLabel>Your risk breakdown</SectionLabel>
+          <h3 className="app-section-title">Recommended asset allocation</h3>
+          <p className="app-section-description mt-3">
+            This is the target mix generated from your {result.risk_label} profile, not your current portfolio allocation.
+          </p>
+
+          <div className="risk-breakdown-bars mt-6">
+            {allocation.map(([asset, value]) => (
+              <div className="risk-breakdown-row" key={asset}>
+                <div className="risk-breakdown-label">
+                  <strong>{asset}</strong>
+                  <span>{assetProxies[asset]?.name || 'Supported asset class'}</span>
+                </div>
+                <div className="app-bar-track">
+                  <div className="app-bar-fill" style={{ width: `${Number(value) * 100}%` }} />
+                </div>
+                <strong className="risk-breakdown-percent">{(Number(value) * 100).toFixed(0)}%</strong>
+              </div>
+            ))}
+          </div>
+
+          <div className="risk-breakdown-copy mt-7">
+            <SectionLabel>Risk explanation</SectionLabel>
+            <p className="app-section-description mt-3">{result.suitability_explanation}</p>
+          </div>
+
+          <div className="risk-breakdown-approach mt-7">
+            <SectionLabel>Investment approach</SectionLabel>
+            <p className="app-section-description mt-3">
+              This {result.risk_label} approach places {growthWeight.toFixed(0)}% in growth-oriented equity proxies,
+              {` ${stabilityWeight.toFixed(0)}%`} in the stability-oriented gilt allocation, and {diversifierWeight.toFixed(0)}% in gold as a diversifier.
+              Your capacity score of {Number(result.capacity_score).toFixed(1)} / 10 incorporates your ability to handle liquidity needs while your tolerance score reflects your comfort with volatility.
+            </p>
+          </div>
+        </div>
+      </Surface>
+
+      <Surface>
+        <SectionLabel>Recommendation</SectionLabel>
+        <h2 className="app-section-title">A strategy with a reason behind it.</h2>
+        <p className="app-section-description mt-4">{result.suitability_explanation}</p>
+        <div className="app-bars mt-8">
+          {allocation.map(([asset, value]) => (
+            <div className="app-bar-row" key={asset}>
+              <span>{asset}</span>
+              <div className="app-bar-track">
+                <div className="app-bar-fill" style={{ width: `${Number(value) * 100}%` }} />
+              </div>
+              <strong>{(Number(value) * 100).toFixed(0)}%</strong>
+            </div>
+          ))}
+        </div>
+        <div className="app-actions">
+          <AppButton onClick={onApply} disabled={busy}>
+            {busy && <InlineLoader />}
+            {busy ? 'Applying…' : 'Apply recommendation'}
+          </AppButton>
+          <AppButton variant="secondary" onClick={() => window.location.reload()}>Retake assessment</AppButton>
+        </div>
+        {message && <p className="app-form-message mt-4">{message}</p>}
+        <p className="app-disclaimer mt-6">
+          Expected annual return {Number(result.expected_annual_return || 0).toFixed(1)}% · expected volatility {Number(result.expected_annual_volatility || 0).toFixed(1)}%
+        </p>
+      </Surface>
+    </section>
+  );
+}
