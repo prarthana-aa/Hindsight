@@ -18,6 +18,7 @@ from pathlib import Path
 
 from .config import ALLOWED_ORIGINS, DISCLAIMER_TEXT
 from .database import create_all_tables, SessionLocal
+from .models import PriceRecord
 from .services.price_service import seed_prices_from_csv
 from .seed_demo import seed_demo_account
 from .routers import (
@@ -38,6 +39,10 @@ def init_system_data():
     db = SessionLocal()
     try:
         seed_prices_from_csv(db)
+        if db.query(PriceRecord).count() == 0:
+            raise RuntimeError(
+                "Price initialization incomplete; no records were loaded from data/prices_fallback.csv"
+            )
         seed_demo_account(db, reset_if_exists=False)
     finally:
         db.close()

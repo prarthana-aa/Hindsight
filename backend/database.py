@@ -2,6 +2,7 @@
 Database Engine and Session Configuration.
 """
 import os
+import logging
 
 from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.orm import declarative_base, sessionmaker
@@ -18,6 +19,19 @@ engine = create_engine(DB_URL, **_engine_options)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+logger = logging.getLogger(__name__)
+
+REQUIRED_TABLES = {
+    "users",
+    "risk_profiles",
+    "goals",
+    "portfolios",
+    "wallet_ledger",
+    "orders",
+    "holdings",
+    "prices",
+    "audit_log",
+}
 
 
 def get_db():
@@ -38,7 +52,26 @@ def create_all_tables():
     The legacy SQLite ledger rewrite is intentionally opt-in. It is not run
     during production startup and is never applicable to PostgreSQL.
     """
+    # Import the model module explicitly at the initialization boundary. This
+    # guarantees every declarative model is registered before create_all(),
+    # regardless of router/service import order.
+    from . import models  # noqa: F401
+
     Base.metadata.create_all(bind=engine)
+
+    missing_tables = REQUIRED_TABLES.difference(inspect(engine).get_table_names())
+    if missing_tables:
+        missing = ", ".join(sorted(missing_tables))
+        raise RuntimeError(f"Database initialization incomplete; missing tables: {missing}")
+
+    logger.info(
+        "Database schema ready: dialect=%s host=%s database=%s tables=%d",
+        engine.url.get_backend_name(),
+        engine.url.host or "local",
+        engine.url.database or "default",
+        len(REQUIRED_TABLES),
+    )
+
     if engine.url.get_backend_name() == "sqlite" and os.getenv("ALLOW_LEGACY_SQLITE_MIGRATION", "false").lower() == "true":
         _migrate_legacy_ledger()
 
