@@ -7,6 +7,9 @@ import pytest
 from backend.services.ledger import credit, get_balance
 from backend.services.order_executor import place_order, OrderExecutionError
 from backend.models import Order, Holding, AuditLog
+from backend.models import User
+from backend.auth import hash_password
+from datetime import datetime, timezone
 from backend.config import TRANSACTION_COST_BPS, SLIPPAGE_BPS
 
 
@@ -40,6 +43,42 @@ def test_idempotent_buy_same_key(db, test_user):
     # Check total orders in database is exactly 1
     total_orders = db.query(Order).filter(Order.idempotency_key == key).count()
     assert total_orders == 1
+
+
+def test_idempotency_key_cannot_cross_accounts(db, test_user):
+    """A key used by one account cannot return or mutate that account's order."""
+    other_user = User(
+        email="otherinvestor@hindsight.app",
+        hashed_password=hash_password("OtherSecret123"),
+        full_name="Other Investor",
+        consent_ts=datetime.now(timezone.utc),
+        is_demo=False,
+    )
+    db.add(other_user)
+    db.commit()
+
+    credit(db, test_user.id, Decimal("50000.00"), memo="Initial funds")
+    credit(db, other_user.id, Decimal("50000.00"), memo="Initial funds")
+    key = "cross_account_key_001"
+
+    place_order(
+        db=db,
+        user_id=test_user.id,
+        asset="NIFTY50",
+        side="BUY",
+        quantity=Decimal("1.0"),
+        idempotency_key=key,
+    )
+
+    with pytest.raises(OrderExecutionError, match="another account"):
+        place_order(
+            db=db,
+            user_id=other_user.id,
+            asset="NIFTY50",
+            side="BUY",
+            quantity=Decimal("1.0"),
+            idempotency_key=key,
+        )
 
 
 def test_buy_debits_wallet(db, test_user):

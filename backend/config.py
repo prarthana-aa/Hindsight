@@ -2,15 +2,51 @@
 Configuration and constants for Hindsight Robo-Advisor.
 """
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
 FALLBACK_CSV_PATH = DATA_DIR / "prices_fallback.csv"
 DB_PATH = BASE_DIR / "hindsight.db"
-DB_URL = f"sqlite:///{DB_PATH}"
+
+
+def _database_url() -> str:
+    """Return the configured database URL, preserving SQLite for local use."""
+    configured = os.getenv("DATABASE_URL", "").strip()
+    if not configured:
+        return f"sqlite:///{DB_PATH}"
+
+    # Neon commonly supplies a postgres:// URL. SQLAlchemy's psycopg dialect
+    # is explicit here because psycopg2 is intentionally not a dependency.
+    if configured.startswith("postgres://"):
+        return "postgresql+psycopg://" + configured[len("postgres://"):]
+    if configured.startswith("postgresql://"):
+        return "postgresql+psycopg://" + configured[len("postgresql://"):]
+    return configured
+
+
+DB_URL = _database_url()
+
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development").strip().lower()
+_configured_database_url = os.getenv("DATABASE_URL", "").strip()
+if ENVIRONMENT == "production" and not _configured_database_url:
+    raise RuntimeError("DATABASE_URL must be set in production; refusing ephemeral SQLite.")
+_DEV_SECRET_KEY = "hindsight-local-development-secret"
+_configured_secret = os.getenv("SECRET_KEY", "").strip()
+if ENVIRONMENT == "production" and len(_configured_secret) < 32:
+    raise RuntimeError("SECRET_KEY must be set to a secure value in production.")
+SECRET_KEY = _configured_secret or _DEV_SECRET_KEY
+
+ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "ALLOWED_ORIGINS",
+        "http://localhost:5173,http://127.0.0.1:5173",
+    ).split(",")
+    if origin.strip()
+]
 
 # Security & Authentication
-SECRET_KEY = "hindsight-robo-dev-secret-key-change-in-production"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 

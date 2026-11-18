@@ -16,7 +16,7 @@ from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from .config import DISCLAIMER_TEXT
+from .config import ALLOWED_ORIGINS, DISCLAIMER_TEXT
 from .database import create_all_tables, SessionLocal
 from .services.price_service import seed_prices_from_csv
 from .seed_demo import seed_demo_account
@@ -31,7 +31,7 @@ from .routers import (
 
 def init_system_data():
     """
-    Initialize SQLite schema, fallback price records, and demo account.
+    Initialize the configured schema, fallback price records, and demo account.
     Runs synchronously at startup.
     """
     create_all_tables()
@@ -62,7 +62,7 @@ app = FastAPI(
 # CORS middleware for frontend clients
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Restrict to frontend domain in production
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

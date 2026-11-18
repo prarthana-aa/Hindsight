@@ -69,6 +69,10 @@ def place_order(
             .first()
         )
         if existing_order:
+            if existing_order.user_id != user_id:
+                raise OrderExecutionError(
+                    "This idempotency key is already associated with another account."
+                )
             return existing_order
 
         # 2. Fetch latest market price
@@ -220,4 +224,3 @@ def place_order(
             db.add(order)
             db.commit()
             return order
-

@@ -1,16 +1,19 @@
 """
 Database Engine and Session Configuration.
 """
+import os
+
 from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.orm import declarative_base, sessionmaker
 from .config import DB_URL
 
-# For SQLite, check_same_thread=False allows FastAPI threads to share sessions safely
-engine = create_engine(
-    DB_URL,
-    connect_args={"check_same_thread": False},
-    echo=False,
-)
+_engine_options = {"echo": False}
+if DB_URL.startswith("sqlite"):
+    # SQLite needs this option for FastAPI's threaded request handling. It is
+    # not a valid PostgreSQL connection option.
+    _engine_options["connect_args"] = {"check_same_thread": False}
+
+engine = create_engine(DB_URL, **_engine_options)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -30,14 +33,20 @@ def get_db():
 
 def create_all_tables():
     """
-    Create all tables in the SQLite database schema if they do not exist.
+    Create missing tables without altering or deleting existing records.
+
+    The legacy SQLite ledger rewrite is intentionally opt-in. It is not run
+    during production startup and is never applicable to PostgreSQL.
     """
     Base.metadata.create_all(bind=engine)
-    _migrate_legacy_ledger()
+    if engine.url.get_backend_name() == "sqlite" and os.getenv("ALLOW_LEGACY_SQLITE_MIGRATION", "false").lower() == "true":
+        _migrate_legacy_ledger()
 
 
 def _migrate_legacy_ledger():
     """Upgrade databases created before WalletLedger gained its sequence key."""
+    if engine.url.get_backend_name() != "sqlite":
+        return
     inspector = inspect(engine)
     if "wallet_ledger" not in inspector.get_table_names():
         return
