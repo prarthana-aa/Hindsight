@@ -124,10 +124,10 @@ def health_check():
     }
 
 
-@app.get("/", tags=["System"])
+@app.get("/api", tags=["System"])
 def root():
     """
-    Root endpoint with API overview and links.
+    API overview and links. The site root is reserved for the React application.
     """
     return {
         "name": "Hindsight Robo-Advisor API",
